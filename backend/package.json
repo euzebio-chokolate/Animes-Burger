@@ -1,6 +1,7 @@
 {
   "name": "animes-burger-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^6.17.1",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "pg": "^8.16.3",
-    "prisma": "^6.17.1"
+    "prisma": "^6.17.1",
+    "studio": "^0.13.5"
   }
 }

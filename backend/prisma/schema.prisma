@@ -1,20 +1,79 @@
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL") 
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model Product {
-  id           Int      @id @default(autoincrement())
-  nome         String   @db.VarChar(100)
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id             Int      @id @default(autoincrement())
+  nome           String
+  telefone       String?
+  email          String?
+  data_cadastro  DateTime @default(now())
+  pedidos        Pedido[]
+}
+
+model Categoria {
+  id       Int      @id @default(autoincrement())
+  nome     String
+  produtos Produto[]
+}
+
+model Produto {
+  id           Int                 @id @default(autoincrement())
+  nome         String
   descricao    String?
   preco        Float
-  disponivel   Boolean  @default(true)
-  //categoriaId  Int?
-  //categoria    Category? @relation(fields: [categoriaId], references: [id])
-  //createdAt    DateTime @default(now())
+  disponivel   Boolean             @default(true)
+  categoriaId  Int?
+  categoria    Categoria?          @relation(fields: [categoriaId], references: [id])
+  itensPedido  ItemPedido[]
+  composicao   ComposicaoProduto[]
+  createdAt    DateTime            @default(now())
+}
+
+model Pedido {
+  id            Int         @id @default(autoincrement())
+  clienteId     Int?
+  cliente       Cliente?    @relation(fields: [clienteId], references: [id])
+  data_hora     DateTime    @default(now())
+  status        String?
+  valor_total   Float?
+  tipo_pedido   String?
+  itens         ItemPedido[]
+}
+
+model ItemPedido {
+  id             Int     @id @default(autoincrement())
+  pedidoId       Int
+  pedido         Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId      Int
+  produto        Produto @relation(fields: [produtoId], references: [id])
+  quantidade     Int
+  preco_unitario Float
+  observacoes    String?
+}
+
+model Ingrediente {
+  id                 Int                 @id @default(autoincrement())
+  nome               String
+  quantidade_estoque Float
+  unidade_medida     String
+  estoque_minimo     Float
+  composicao         ComposicaoProduto[]
+}
+
+model ComposicaoProduto {
+  produtoId           Int
+  ingredienteId       Int
+  quantidade_necessaria Float
+  unidade_medida      String
+
+  produto    Produto    @relation(fields: [produtoId], references: [id])
+  ingrediente Ingrediente @relation(fields: [ingredienteId], references: [id])
+
+  @@id([produtoId, ingredienteId])
 }
