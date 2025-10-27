@@ -7,7 +7,7 @@ export const clienteService = {
     },
 
     async criar(data) {
-        return await prisma.cliente.criar({
+        return await prisma.cliente.create({
             data: {
                 nome: data.nome,
                 telefone: data.telefone,

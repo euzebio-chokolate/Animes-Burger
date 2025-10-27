@@ -10,7 +10,7 @@ export const produtoService = {
   },
 
   async criar(data) {
-    return await prisma.produto.criar({
+    return await prisma.produto.create({
       data: {
         nome: data.nome,
         descricao: data.descricao ?? null, 
