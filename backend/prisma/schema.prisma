@@ -14,6 +14,23 @@ model Cliente {
   email          String?
   data_cadastro  DateTime @default(now())
   pedidos        Pedido[]
+  endereco       Endereco?
+}
+
+model Endereco {
+  id            Int      @id @default(autoincrement())
+  clienteId     Int      @unique
+  cliente       Cliente  @relation(fields: [clienteId], references: [id])
+  rua           String?
+  numero        String?
+  bairro        String?
+  cidade        String?
+  estado        String?
+  cep           String?
+
+  latitude      Float?
+  longitude     Float?
+  criadoEm      DateTime @default(now())
 }
 
 model Categoria {
