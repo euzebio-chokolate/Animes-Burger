@@ -1,3 +1,5 @@
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -5,7 +7,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        'Atop': ['Atop', ...defaultTheme.fontFamily.sans],
+        'Adlam': ['ADLaM', ...defaultTheme.fontFamily.sans],
+      }
+    },
   },
   plugins: [],
 }
+
