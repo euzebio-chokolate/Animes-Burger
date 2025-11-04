@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 // IMPORTAÇÕES GLOBAIS
 // Importações da Navbar
-import LogoImage from '../../assets/logo.png';
-import MainBurger from '../../assets/burger-1.png';
+import LogoImage from '../../assets/images/logo.png';
+import MainBurger from '../../assets/images/burger-1.png';
 import { 
     BookOpenIcon,
     MapPinIcon,
@@ -11,7 +11,6 @@ import {
     ShoppingCartIcon
 } from '@heroicons/react/24/outline';
 
-const narutoGokuImage = "";
 const burgerMainImage = MainBurger;
 const gokuBurgerImage = "";
 const vegetaBurgerImage = "";
@@ -137,19 +136,23 @@ function Banner() {
         <section 
             className="relative w-full min-h-screen bg-[#F78C26] p-8 md:p-12 overflow-hidden"
             style={{ 
-                backgroundImage: 'repeating-linear-gradient(45deg, #F78C26 0, #F78C26 10px, #E57A1E 10px, #E57A1E 20px)' 
+                backgroundImage: 'repeating-linear-gradient(150deg, #F78C26 0, #F78C26 10px, #E57A1E 80px)' 
             }}
         >
-            <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between h-full pt-20 lg:pt-0">
+            <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 h-full flex flex-col lg:flex-row items-center justify-between pt-20 lg:pt-0">
                 
-                <div className="flex-1 text-center lg:text-left z-10 p-4 lg:p-0">
+                <div className="flex-1 text-center lg:text-left z-10 p-4 lg:p-0 items-center">
                     <h1 
-                        className="font-bold font-atop text-6xl md:text-7xl lg:text-8xl text-white text-stroke leading-none mb-4"
-                        style={{ textShadow: '0 0 5px white, 0 0 10px white' }} 
+                        className="font-bold font-Atop text-9xl text-white text-stroke"
                     >
-                        ANIMES <br/> BURGUER
+                        ANIMES
                     </h1>
-                    <p className="bg-white text-gray-800 text-lg md:text-xl font-bold font-adlam px-4 py-2 rounded-full inline-block shadow-md mb-8">
+                    <h1 
+                        className="font-bold font-Adlam text-9xl text-black mb-4" 
+                    >
+                        BURGER
+                    </h1>
+                    <p className="bg-[#F9E8B0] text-gray-800 text-lg md:text-xl font-bold font-adlam px-4 py-2 rounded-xl box-border border-black  inline-block shadow-md mb-8">
                         O hambúrguer mais incrível da galáxia!
                     </p>
                     <div className="flex justify-center lg:justify-start space-x-4">
@@ -171,11 +174,6 @@ function Banner() {
                         />
                          <div className="absolute inset-1 border-2 border-yellow-300 rounded-md pointer-events-none"></div>
                     </div>
-                    <img 
-                        src={narutoGokuImage}
-                        alt="Personagens Anime" 
-                        className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-full max-w-lg lg:max-w-xl xl:max-w-2xl h-auto object-contain z-20 pointer-events-none"
-                    />
                 </div>
             </div>
         </section>
