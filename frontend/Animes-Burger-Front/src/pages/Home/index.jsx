@@ -220,7 +220,7 @@ function DestaquesSection() {
               >
                 <div className="relative p-2 border-b-4 border-black">
                   <img
-                    src={product.imagem_url || "https://via.placeholder.com/300"} // caso não tenha imagem
+                    src={product.imagem_url || "##"}
                     alt={product.nome}
                     className="w-full h-48 object-cover rounded-md"
                   />
