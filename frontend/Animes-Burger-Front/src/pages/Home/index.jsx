@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 // IMPORTAÇÕES GLOBAIS
 // Importações da Navbar
@@ -134,7 +135,7 @@ function Navbar() {
 function Banner() {
     return (
         <section 
-            className="relative w-full min-h-screen bg-[#F78C26] p-8 md:p-12 overflow-hidden"
+            className="relative w-full bg-[#F78C26] p-8 md:p-12 overflow-hidden"
             style={{ 
                 backgroundImage: 'repeating-linear-gradient(150deg, #F78C26 0, #F78C26 10px, #E57A1E 80px)' 
             }}
@@ -152,27 +153,30 @@ function Banner() {
                     >
                         BURGER
                     </h1>
-                    <p className="bg-[#F9E8B0] text-gray-800 text-lg md:text-xl font-bold font-adlam px-4 py-2 rounded-xl box-border border-black  inline-block shadow-md mb-8">
-                        O hambúrguer mais incrível da galáxia!
+
+                    <div className='bg-[#F9E8B0] text-xl px-4 py-2 rounded-xl border-4 border-black inline-block -rotate-3 mt-8'>
+                    <p className='font-Adlam'>
+                        Os Burgers mais incríveis da galáxia!
                     </p>
-                    <div className="flex justify-center lg:justify-start space-x-4">
-                        <button className="font-atop uppercase bg-[#8A3249] hover:bg-[#A0405A] text-white text-stroke text-lg py-3 px-8 rounded-full shadow-lg border-2 border-black transition duration-300">
+                    </div>
+
+                    <div className="flex justify-center lg:justify-start space-x-5 mt-10">
+                        <button className="font-Adlam uppercase bg-[#8A3249] text-white text-lg py-3 px-7 rounded-full border-black border-4">
                             Peça Agora
                         </button>
-                        <button className="font-atop uppercase bg-white hover:bg-gray-100 text-gray-800 text-lg py-3 px-8 rounded-full shadow-lg border-2 border-black transition duration-300">
+                        <button className="font-Adlam uppercase bg-white text-gray-800 text-lg px-5 rounded-full border-4 border-black">
                             Ver Cardápio
                         </button>
                     </div>
                 </div>
 
-                <div className="relative flex-1 flex justify-center items-end mt-16 lg:mt-0 lg:ml-8 z-0">
-                    <div className="relative w-full max-w-sm lg:max-w-md bg-white p-2 rounded-lg shadow-2xl border-4 border-black transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                <div className="relative flex-1 flex justify-center items-end m-14 ">
+                    <div className="relative w-full max-w-sm lg:max-w-xl xl:max-w-2xl bg-[#F9E8B0] p-5 rounded-xl  border-4 border-black transform rotate-3">
                         <img 
                             src={burgerMainImage}
                             alt="Hambúrguer Principal" 
-                            className="w-full h-auto rounded-md"
+                            className="w-full h-auto rounded-xl border-4 border-black"
                         />
-                         <div className="absolute inset-1 border-2 border-yellow-300 rounded-md pointer-events-none"></div>
                     </div>
                 </div>
             </div>
@@ -181,42 +185,63 @@ function Banner() {
 }
 
 function DestaquesSection() {
-    const destaqueProducts = [
-        { name: 'Goku burger', image: gokuBurgerImage, price: 'R$ 29,90' },
-        { name: 'Vegeta burger', image: vegetaBurgerImage, price: 'R$ 32,90' },
-        { name: 'Luffy burger', image: luffyBurgerImage, price: 'R$ 34,90' },
-    ];
+
+    const [destaqueProducts, setDestaqueProducts] = useState([]);
+
+    const buscarProdutos = async () => {
+        try {
+             const resposta = await axios.get("http://localhost:3000/api/produtos");
+             setDestaqueProducts(resposta.data);
+        } catch (error) {
+            console.error("Erro ao buscar produtos:", error);
+        }
+    };
+
+    useEffect(() => {
+        buscarProdutos();
+    }, []);
 
     return (
-        <section className="w-full bg-[#EADDCA] py-16 px-8 relative overflow-hidden">
-            <img 
-                src={personagensFundo}
-                alt="Personagens Anime Destaque" 
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-auto object-contain z-0 opacity-20"
-            />
-            <div className="container mx-auto relative z-10 text-center">
-                <h2 
-                    className="font-bold font-atop text-5xl md:text-6xl text-black mb-12 inline-block px-8"
-                    style={{ textShadow: '2px 2px 0 white, -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white' }}
-                >
-                    DESTAQUES
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-                    {destaqueProducts.map((product, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-xs overflow-hidden transition-transform duration-300 hover:scale-105">
-                            <div className="relative p-2 border-b-4 border-black">
-                                <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-md" />
-                                <div className="absolute inset-1 border-2 border-yellow-300 rounded-md pointer-events-none"></div>
-                            </div>
-                            <div className="p-4 text-center">
-                                <h3 className="text-2xl font-bold font-adlam text-gray-800 mb-2">{product.name}</h3>
-                                <p className="text-2xl font-bold font-atop text-[#8A3249]">{product.price}</p>
-                            </div>
-                        </div>
-                    ))}
+        <section className="w-full bg-[#F9E8B0] py-16 px-8 relative overflow-hidden">
+      <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <h2
+          className="font-Atop font-semibold text-7xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}
+        >
+          DESTAQUES
+        </h2>
+
+        <div className="grid grid-cols-3 justify-items-center">
+          {destaqueProducts.length > 0 ? (
+            destaqueProducts.map((product, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-xs overflow-hidden transition-transform duration-300 hover:scale-105"
+              >
+                <div className="relative p-2 border-b-4 border-black">
+                  <img
+                    src={product.imagem_url || "https://via.placeholder.com/300"} // caso não tenha imagem
+                    alt={product.nome}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                  <div className="absolute inset-1 border-2 rounded-md pointer-events-none"></div>
                 </div>
-            </div>
-        </section>
+                <div className="p-4 text-center">
+                  <h3 className="text-2xl font-bold font-adlam text-gray-800 mb-2">
+                    {product.nome}
+                  </h3>
+                  <p className="text-2xl font-bold font-atop text-[#8A3249]">
+                    R$ {product.preco.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-lg text-gray-600">Carregando produtos...</p>
+          )}
+        </div>
+      </div>
+    </section>
     );
 }
 
