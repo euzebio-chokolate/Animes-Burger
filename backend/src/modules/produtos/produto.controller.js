@@ -23,13 +23,15 @@ export const ProdutoController = {
         })
       }
 
-      const novoProduto = await produtoService.criar(request.body);
+      const imagemUrl = request.file?.path || request.body.imagemUrl|| null;
+
+      const novoProduto = await produtoService.criar({...request.body, imagemUrl});
       response.status(201).json(novoProduto);
 
     } catch (error) {
       response.status(500).json({
         mensagem: 'Erro ao criar novo produto',
-        erro: error.mensagem
+        erro: error.message
       })
     }
   }

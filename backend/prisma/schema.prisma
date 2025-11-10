@@ -50,6 +50,7 @@ model Produto {
   itensPedido  ItemPedido[]
   composicao   ComposicaoProduto[]
   createdAt    DateTime            @default(now())
+  imagemUrl    String?
 }
 
 model Pedido {

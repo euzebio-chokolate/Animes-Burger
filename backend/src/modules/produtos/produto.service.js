@@ -5,7 +5,14 @@ const prisma = new PrismaClient();
 export const produtoService = {
   async listarTudo() {
     return await prisma.produto.findMany({
-      include: {categoria: true}
+      include: {
+        categoria: true,
+        composicao: {
+          include: {
+            ingrediente: true
+          }
+        }
+      }
     });
   },
 
@@ -15,8 +22,9 @@ export const produtoService = {
         nome: data.nome,
         descricao: data.descricao ?? null, 
         preco: parseFloat(data.preco),
-        disponivel: data.disponivel ?? true,
-        categoriaId: data.categoriaId ? Number(data.categoriaId) : null
+        disponivel: data.disponivel === "true" || data.disponivel === true ? true : false,
+        categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
+        imagemUrl: data.imagemUrl ?? null
       },
       include: { categoria: true }
     })
