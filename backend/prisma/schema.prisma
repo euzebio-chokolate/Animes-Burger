@@ -7,31 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cliente {
-  id             Int      @id @default(autoincrement())
-  nome           String
-  telefone       String?
-  email          String?
-  data_cadastro  DateTime @default(now())
-  pedidos        Pedido[]
-  endereco       Endereco?
+model Usuario {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String   @unique
+  senhaHash    String
+  role         String   @default("user")
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  cliente      Cliente?
 }
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  usuarioId Int      @unique
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  telefone  String?
+  endereco  Endereco?
+  pedidos   Pedido[]
+}
+
+
 
 model Endereco {
-  id            Int      @id @default(autoincrement())
-  clienteId     Int      @unique
-  cliente       Cliente  @relation(fields: [clienteId], references: [id])
-  rua           String?
-  numero        String?
-  bairro        String?
-  cidade        String?
-  estado        String?
-  cep           String?
-
-  latitude      Float?
-  longitude     Float?
-  criadoEm      DateTime @default(now())
+  id         Int     @id @default(autoincrement())
+  clienteId  Int     @unique
+  cliente    Cliente @relation(fields: [clienteId], references: [id])
+  
+  rua        String?
+  numero     String?
+  bairro     String?
+  cidade     String?
+  estado     String?
+  cep        String?
+  latitude   Float?
+  longitude  Float?
+  criadoEm   DateTime @default(now())
 }
+
 
 model Categoria {
   id       Int      @id @default(autoincrement())
@@ -51,18 +65,20 @@ model Produto {
   composicao   ComposicaoProduto[]
   createdAt    DateTime            @default(now())
   imagemUrl    String?
+  destaque     Destaque?
 }
 
 model Pedido {
-  id            Int         @id @default(autoincrement())
-  clienteId     Int?
-  cliente       Cliente?    @relation(fields: [clienteId], references: [id])
-  data_hora     DateTime    @default(now())
-  status        String?
-  valor_total   Float?
-  tipo_pedido   String?
-  itens         ItemPedido[]
+  id          Int       @id @default(autoincrement())
+  clienteId   Int?
+  cliente     Cliente?  @relation(fields: [clienteId], references: [id])
+  data_hora   DateTime  @default(now())
+  status      String?
+  valor_total Float?
+  tipo_pedido String?
+  itens       ItemPedido[]
 }
+
 
 model ItemPedido {
   id             Int     @id @default(autoincrement())
@@ -94,4 +110,11 @@ model ComposicaoProduto {
   ingrediente Ingrediente @relation(fields: [ingredienteId], references: [id])
 
   @@id([produtoId, ingredienteId])
+}
+
+model Destaque {
+  id        Int      @id @default(autoincrement())
+  produtoId Int      @unique 
+  produto   Produto  @relation(fields: [produtoId], references: [id])
+  createdAt DateTime @default(now())
 }

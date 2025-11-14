@@ -14,3 +14,17 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+
+.env exemple: 
+DATABASE_URL="postgresql://postgres:admin@localhost:5432/animes_burguer?schema=public"
+PORT=3000
+
+LOCATIONIQ_TOKEN=pk.3070aa06c97aa0b2de7e042aae18d20f
+
+CLOUDINARY_CLOUD_NAME=dfiklwc5s
+CLOUDINARY_API_KEY=985573858431545
+CLOUDINARY_API_SECRET=k8XcK1E3QHJR9COMQotj7EGZ_ig
+
+JWT_SECRET=asduifadauidfgoafdg
+JWT_REFRESH_SECRET=djlsidlfisdfgs

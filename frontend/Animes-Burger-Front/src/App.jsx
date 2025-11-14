@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-import Home from './pages/Home'
-import { 
-    BookOpenIcon,
-    MapPinIcon,
-    UserCircleIcon,
-    ShoppingCartIcon,
-    PhoneIcon,
-    ClockIcon 
-} from '@heroicons/react/24/outline';
+import Home from "./pages/Home";
+import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 
+
+function PrivateRoute({ children }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || user.role !== "admin") return <Navigate to="/login" />;
+  return children;
+}
 
 function App() {
 
@@ -16,6 +16,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login onLoginSuccess={() => window.location.replace('/admin')} />} />
+        <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   )
