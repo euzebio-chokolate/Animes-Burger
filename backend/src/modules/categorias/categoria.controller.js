@@ -20,7 +20,7 @@ export const CategoriaController = {
         } catch (error) {
             response.status(500).json({
                 menssagem: 'Erro ao criar as categorias', 
-                erro: error.menssagem
+                erro: error.message
             })
         }
     } 

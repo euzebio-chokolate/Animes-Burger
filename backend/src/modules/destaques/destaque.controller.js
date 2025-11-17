@@ -27,9 +27,9 @@ export const DestaqueController = {
 
   async remover(req, res) {
     try {
-      const { id } = req.params;
+      const { produtoId } = req.params;
 
-      await destaqueService.remover(id);
+      await destaqueService.remover(produtoId);
 
       res.json({ mensagem: "Destaque removido" });
     } catch (error) {

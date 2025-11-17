@@ -1,26 +1,36 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 
 
-function PrivateRoute({ children }) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user || user.role !== "admin") return <Navigate to="/login" />;
-  return children;
-}
+import AdminLayout from './pages/Admin/AdminLayout.jsx';
+import AdminDashboard from './Pages/Admin/index.jsx'; 
+import AdminProdutos from './pages/Admin/Produtos'; 
+import AdminPedidos from './pages/Admin/Pedidos'; 
 
-function App() {
+import AdminRoute from './components/AdminRoute';
 
+
+function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login onLoginSuccess={() => window.location.replace('/admin')} />} />
-        <Route path="/admin" element={<PrivateRoute><Admin /></PrivateRoute>} />
+        <Route path="/login" element={<Login />} />
+    
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+           
+            <Route index element={<AdminDashboard />} /> 
+            <Route path="produtos" element={<AdminProdutos />} />
+            <Route path="pedidos" element={<AdminPedidos />} />
+          
+          </Route>
+        </Route>
+
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App;
+export default AppRoutes;

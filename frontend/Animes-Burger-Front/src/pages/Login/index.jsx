@@ -1,36 +1,64 @@
-import React, { useState } from "react";
-import api, { setTokens } from "../../services/api.js";
+import { useState } from "react";
+import api from "../../services/api.js";
+import { useNavigate } from "react-router-dom";
 
-function Login({ onLoginSuccess }) {
+export default function Login() {
+  const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  async function handleLogin(e) {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/login", { email, senha });
-      const { accessToken, refreshToken, user } = res.data;
-      setTokens({ access: accessToken, refresh: refreshToken });
-      // opcional: salvar no localStorage
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("user", JSON.stringify(user));
-      onLoginSuccess(user);
+      const { data } = await api.post("/usuarios/login", { email, senha });
+      
+      localStorage.setItem("token", data.accessToken);
+      
+      localStorage.setItem("role", data.usuario.role);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.usuario));
+
+      if (data.usuario.role === "admin") {
+        nav("/admin");
+      } else {
+        nav("/");
+      }
+      
     } catch (err) {
-      setError(err.response?.data?.erro || "Erro ao logar");
+      console.error("Erro no login:", err);
+      alert("Ocorreu um erro no login: " + err.message);
     }
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 bg-white rounded">
-      <h2 className="text-2xl mb-4">Login</h2>
-      {error && <div className="text-red-600 mb-2">{error}</div>}
-      <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" required className="w-full p-2 mb-3"/>
-      <input type="password" value={senha} onChange={e=>setSenha(e.target.value)} placeholder="Senha" required className="w-full p-2 mb-3"/>
-      <button className="w-full bg-[#8A3249] text-white p-2">Entrar</button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <form
+        onSubmit={handleLogin}
+        className="bg-gray-800 p-8 rounded-lg text-white w-96 shadow-xl"
+      >
+        <h1 className="text-2xl mb-6 font-bold text-center">Login</h1>
+
+        <label>Email</label>
+        <input
+          className="w-full p-2 rounded bg-gray-700 mt-1 mb-4"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label>Senha</label>
+        <input
+          type="text"
+          className="w-full p-2 rounded bg-gray-700 mt-1 mb-6"
+          value={senha}
+          onChange={(e) => setSenha(e.target.value)}
+        />
+
+        <button
+          className="w-full bg-red-600 hover:bg-red-700 transition p-2 rounded"
+        >
+          Entrar
+        </button>
+      </form>
+    </div>
   );
 }
-
-export default Login;

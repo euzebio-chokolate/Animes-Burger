@@ -8,7 +8,7 @@ export const CategoriaService = {
     }, 
 
     async criar(data) {
-        return await prisma.categoria.criar({
+        return await prisma.categoria.create({
             data: {
                 nome: data.nome
             }

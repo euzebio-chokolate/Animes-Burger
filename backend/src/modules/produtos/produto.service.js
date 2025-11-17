@@ -6,12 +6,7 @@ export const produtoService = {
   async listarTudo() {
     return await prisma.produto.findMany({
       include: {
-        categoria: true,
-        composicao: {
-          include: {
-            ingrediente: true
-          }
-        }
+        categoria: true
       }
     });
   },
@@ -24,7 +19,8 @@ export const produtoService = {
         preco: parseFloat(data.preco),
         disponivel: data.disponivel === "true" || data.disponivel === true ? true : false,
         categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
-        imagemUrl: data.imagemUrl ?? null
+        imagemUrl: data.imagemUrl ?? null,
+        ingredientes: data.ingredientes ?? null
       },
       include: { categoria: true }
     })

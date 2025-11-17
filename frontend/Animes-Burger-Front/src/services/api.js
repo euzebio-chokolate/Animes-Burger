@@ -4,37 +4,50 @@ const api = axios.create({
   baseURL: "http://localhost:3000/api",
 });
 
-let accessToken = null;
-let refreshToken = null;
-
-export function setTokens({ access, refresh }) {
-  accessToken = access;
-  refreshToken = refresh;
-}
-
-api.interceptors.request.use(config => {
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-  return config;
-});
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
-  res => res,
-  async err => {
-    const original = err.config;
-    if (err.response && err.response.status === 401 && !original._retry && refreshToken) {
-      original._retry = true;
+  (res) => res,
+  async (err) => {
+    const originalRequest = err.config;
+    
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (err.response?.status === 401 && !originalRequest._retry && refreshToken) {
+      originalRequest._retry = true; // Marca que já tentou
+      
       try {
-        const r = await axios.post("http://localhost:3000/api/auth/refresh", { refreshToken });
-        accessToken = r.data.accessToken;
-        refreshToken = r.data.refreshToken;
-        original.headers.Authorization = `Bearer ${accessToken}`;
-        return api(original);
+        const { data } = await api.post("/usuarios/refresh", { refreshToken });
+
+        const newAccessToken = data.accessToken;
+        
+        localStorage.setItem('token', newAccessToken);
+        
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return api(originalRequest);
         
       } catch (refreshErr) {
-        throw refreshErr;
+        console.error("Sessão expirada. Faça login novamente.", refreshErr);
+        localStorage.clear(); 
+        window.location.href = '/login';
+        return Promise.reject(refreshErr);
       }
     }
-    throw err;
+
+    return Promise.reject(err);
   }
 );
 

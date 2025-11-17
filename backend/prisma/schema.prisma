@@ -62,10 +62,10 @@ model Produto {
   categoriaId  Int?
   categoria    Categoria?          @relation(fields: [categoriaId], references: [id])
   itensPedido  ItemPedido[]
-  composicao   ComposicaoProduto[]
   createdAt    DateTime            @default(now())
   imagemUrl    String?
   destaque     Destaque?
+  ingredientes String?
 }
 
 model Pedido {
@@ -89,27 +89,6 @@ model ItemPedido {
   quantidade     Int
   preco_unitario Float
   observacoes    String?
-}
-
-model Ingrediente {
-  id                 Int                 @id @default(autoincrement())
-  nome               String
-  quantidade_estoque Float
-  unidade_medida     String
-  estoque_minimo     Float
-  composicao         ComposicaoProduto[]
-}
-
-model ComposicaoProduto {
-  produtoId           Int
-  ingredienteId       Int
-  quantidade_necessaria Float
-  unidade_medida      String
-
-  produto    Produto    @relation(fields: [produtoId], references: [id])
-  ingrediente Ingrediente @relation(fields: [ingredienteId], references: [id])
-
-  @@id([produtoId, ingredienteId])
 }
 
 model Destaque {

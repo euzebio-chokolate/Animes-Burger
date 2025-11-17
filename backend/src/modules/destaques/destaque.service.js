@@ -27,9 +27,9 @@ export const destaqueService = {
     });
   },
 
-  async remover(id) {
+  async remover(produtoId) {
     return await prisma.destaque.delete({
-      where: { id: Number(id) }
+      where: { produtoId: Number(produtoId) }
     });
   }
 };
