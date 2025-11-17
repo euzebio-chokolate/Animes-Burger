@@ -1,4 +1,3 @@
-// DEPOIS (Código sugerido)
 import { Router } from 'express';
 import { ProdutoController } from "./produto.controller.js";
 
