@@ -104,5 +104,39 @@ export const adminService = {
     return await prisma.cliente.findMany({
       include: { usuario: true }
     });
-  }
+  },
+
+  //CATEGORIAS
+  async listarCategorias() {
+    return await prisma.categoria.findMany({
+      orderBy: { nome: 'asc' }
+    });
+  },
+
+  async criarCategoria(nome) {
+    return await prisma.categoria.create({
+      data: { nome }
+    });
+  },
+
+  async atualizarCategoria(id, nome) {
+    return await prisma.categoria.update({
+      where: { id: Number(id) },
+      data: { nome }
+    });
+  },
+
+  async removerCategoria(id) {
+    const produtos = await prisma.produto.count({
+      where: { categoriaId: Number(id) }
+    });
+
+    if (produtos > 0) {
+      throw new Error("Não é possível remover. Esta categoria está sendo usada por produtos.");
+    }
+
+    return await prisma.categoria.delete({
+      where: { id: Number(id) }
+    });
+  },
 };

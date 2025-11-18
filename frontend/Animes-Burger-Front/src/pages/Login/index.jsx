@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../../services/api.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const nav = useNavigate();
@@ -58,6 +58,12 @@ export default function Login() {
         >
           Entrar
         </button>
+        <p className="text-center mt-4">
+          Não tem uma conta? 
+          <Link to="/registro" className="text-yellow-500 hover:underline ml-1">
+            Crie uma agora
+          </Link>
+        </p>
       </form>
     </div>
   );

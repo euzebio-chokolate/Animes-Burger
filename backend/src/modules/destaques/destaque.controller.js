@@ -12,16 +12,20 @@ export const DestaqueController = {
 
   async adicionar(req, res) {
     try {
-      const { produtoId } = req.body;
+      const { produtoId } = req.params; 
 
       if (!produtoId) {
         return res.status(400).json({ erro: "produtoId é obrigatório" });
       }
 
-      const destaque = await destaqueService.adicionar(produtoId);
+      const destaque = await destaqueService.adicionar(produtoId); 
       res.status(201).json(destaque);
     } catch (error) {
-      res.status(400).json({ erro: error.message });
+
+      if (error.message.includes("Limite") || error.message.includes("já é um destaque")) {
+         return res.status(400).json({ erro: error.message });
+      }
+      res.status(500).json({ erro: error.message });
     }
   },
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api'; //
+import api from '../../services/api'; 
 
 // Este componente é o seu AdminDashboard
 const AdminDashboard = () => {

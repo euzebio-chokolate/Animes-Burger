@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
-// Ícones para o menu (opcional, mas legal)
+//Ícones para o menu
 import { 
   ChartPieIcon, 
   ShoppingBagIcon, 
   ArchiveBoxIcon,
-  HomeIcon
+  HomeIcon,
+  UserGroupIcon,
+  TagIcon,
+  StarIcon
 } from '@heroicons/react/24/outline';
 
 const AdminLayout = () => {
@@ -16,8 +19,8 @@ const AdminLayout = () => {
       {/* Sidebar (Menu Lateral) */}
       <aside className="w-64 bg-gray-900 text-white flex flex-col">
         <div className="p-4 border-b border-gray-700">
-          <h1 className="text-2xl font-bold text-yellow-400">ANIMES BURGER</h1>
-          <span className="text-sm text-gray-400">Painel Admin</span>
+          <h1 className="text-2xl font-Adlam text-yellow-400">ANIMES BURGER</h1>
+          <span className="text-sm font-Adlam text-gray-400">Painel Admin</span>
         </div>
         
         <nav className="flex-1 p-4 space-y-2">
@@ -34,6 +37,18 @@ const AdminLayout = () => {
             <span>Produtos</span>
           </Link>
           {/* Adicione links para Clientes, Categorias, etc. aqui */}
+          <Link to="/admin/clientes" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-700">
+            <UserGroupIcon className="h-6 w-6" />
+            <span>Clientes</span>
+          </Link>
+          <Link to="/admin/categorias" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-700">
+        <TagIcon className="h-6 w-6" />
+        <span>Categorias</span>
+      </Link>
+      <Link to="/admin/destaques" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-700">
+        <StarIcon className="h-6 w-6" />
+        <span>Destaques</span>
+      </Link>
         </nav>
 
         <div className="p-4 border-t border-gray-700">

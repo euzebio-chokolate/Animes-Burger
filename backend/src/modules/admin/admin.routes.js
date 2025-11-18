@@ -6,6 +6,8 @@ import { DashboardAdminController } from "./dashboard.controller.js";
 import { PedidosAdminController } from "./pedidos.admin.controller.js";
 import { ProdutosAdminController } from "./produtos.admin.controller.js";
 import { ClientesAdminController } from "./clientes.admin.controller.js";
+import { CategoriasAdminController } from "./categorias.admin.controller.js";
+import { DestaqueController } from "../destaques/destaque.controller.js";
 
 const routes = Router();
 
@@ -23,5 +25,16 @@ routes.delete("/produtos/:id", authenticate(['admin']), ProdutosAdminController.
 
 //CLIENTES
 routes.get("/clientes", authenticate(['admin']), ClientesAdminController.listar);
+
+//CATEGORIAS
+routes.get("/categorias", authenticate(['admin']), CategoriasAdminController.listar);
+routes.post("/categorias", authenticate(['admin']), CategoriasAdminController.criar);
+routes.put("/categorias/:id", authenticate(['admin']), CategoriasAdminController.atualizar);
+routes.delete("/categorias/:id", authenticate(['admin']), CategoriasAdminController.remover);
+
+//DESTAQUES
+routes.get("/destaques", DestaqueController.listar);
+routes.post("/destaques/:produtoId", authenticate(['admin']), DestaqueController.adicionar);
+routes.delete("/destaques/:produtoId", authenticate(['admin']), DestaqueController.remover);
 
 export default routes;

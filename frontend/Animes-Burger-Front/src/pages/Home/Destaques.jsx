@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useCart } from '../carrinho';
 import axios from "axios";
 
 function DestaquesSection() {
-
     const [destaqueProducts, setDestaqueProducts] = useState([]);
+
+    const { addToCart, loading } = useCart();
 
     const buscarProdutos = async () => {
         try {
-             const resposta = await axios.get("http://localhost:3000/api/produtos");
+             const resposta = await axios.get("http://localhost:3000/api/produtos"); //corrigir a rota depois
              setDestaqueProducts(resposta.data);
         } catch (error) {
             console.error("Erro ao buscar produtos:", error);
@@ -49,9 +51,10 @@ function DestaquesSection() {
                   </h3>
                   
                   
-                  <p className="text-sm text-gray-600 mb-4">
+                  <p className="text-sm text-black mb-4">
                     {product.descricao}
                   </p>
+
                   
                   <div className="flex flex-wrap gap-2 mb-4">
                     {/* Verificamos se itensPedido é um array antes de mapear */}
@@ -73,7 +76,9 @@ function DestaquesSection() {
                     <p className="text-3xl font-Adlam text-black">
                       R$ {Number(product.preco || 0).toFixed(2)}
                     </p>
-                    <button 
+                    <button
+                        onClick={()=> addToCart(product.id, 1)}
+                        disabled={loading}
                         type="button"
                         className="bg-[#F78C26] text-white text-stroke font-Adlam py-1 px-4 rounded-lg border-2 border-black shadow-md hover:bg-[#E57A1E] transition-colors text-2xl"
                     >
