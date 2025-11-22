@@ -23,17 +23,15 @@ const Registro = () => {
     }
 
     try {
-      // 1. Chama a rota de registro do back-end
       await api.post('/usuarios/register', {
         nome,
         email,
         senha,
-        role: 'user' // Define o 'role' como 'user'
+        role: 'user'
       });
 
       alert("Conta criada com sucesso! Você já pode fazer o login.");
       
-      // 2. Redireciona para a página de login
       navigate('/login');
 
     } catch (err) {
@@ -46,40 +44,41 @@ const Registro = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#A0405A] p-4">
       <form
         onSubmit={handleRegister}
-        className="bg-gray-800 p-8 rounded-lg text-white w-full max-w-md shadow-xl"
+        className="bg-[#F9E8B0] p-8 rounded-lg text-black w-96 shadow-xl border-4 border-black font-Adlam"
       >
-        <h1 className="text-2xl mb-6 font-bold text-center font-adlam">
+        <h1  className="font-Atop font-semibold text-4xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>
           Criar Conta
         </h1>
 
         {/* Campo Nome */}
-        <label className="block mb-1 font-semibold">Nome</label>
+        <label className="font-Adlam text-black text-2xl">Nome</label>
         <input
           type="text"
-          className="w-full p-2 rounded bg-gray-700 mt-1 mb-4"
+          className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           required
         />
 
         {/* Campo Email */}
-        <label className="block mb-1 font-semibold">Email</label>
+        <label className="font-Adlam text-black text-2xl">Email</label>
         <input
           type="email"
-          className="w-full p-2 rounded bg-gray-700 mt-1 mb-4"
+          className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
         {/* Campo Senha */}
-        <label className="block mb-1 font-semibold">Senha</label>
+        <label className="font-Adlam text-black text-2xl">Senha</label>
         <input
           type="password"
-          className="w-full p-2 rounded bg-gray-700 mt-1 mb-6"
+          className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
           required
@@ -93,14 +92,14 @@ const Registro = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-green-600 hover:bg-green-700 transition p-2 rounded font-adlam text-lg disabled:bg-gray-500"
+          className="w-full bg-red-600 hover:bg-red-700 transition p-2 rounded-xl border-4 border-black text-xl"
         >
           {loading ? "Criando..." : "Registrar"}
         </button>
 
-        <p className="text-center mt-4">
+        <p className="text-center mt-4 text-xl">
           Já tem uma conta? 
-          <Link to="/login" className="text-yellow-500 hover:underline ml-1">
+          <Link to="/login" className="text-[#F78C26] hover:underline ml-1 text-xl">
             Faça o login
           </Link>
         </p>

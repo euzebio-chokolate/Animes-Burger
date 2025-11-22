@@ -31,36 +31,37 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-[#A0405A]">
       <form
         onSubmit={handleLogin}
-        className="bg-gray-800 p-8 rounded-lg text-white w-96 shadow-xl"
+        className="bg-[#F9E8B0] p-8 rounded-lg text-black w-96 shadow-xl border-4 border-black font-Adlam"
       >
-        <h1 className="text-2xl mb-6 font-bold text-center">Login</h1>
+        <h1 className="font-Atop font-semibold text-4xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Login</h1>
 
-        <label>Email</label>
+        <label className="font-Adlam text-black text-2xl">Email</label>
         <input
-          className="w-full p-2 rounded bg-gray-700 mt-1 mb-4"
+          className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label>Senha</label>
+        <label className="font-Adlam text-black text-2xl">Senha</label>
         <input
           type="text"
-          className="w-full p-2 rounded bg-gray-700 mt-1 mb-6"
+          className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
 
         <button
-          className="w-full bg-red-600 hover:bg-red-700 transition p-2 rounded"
+          className="w-full bg-red-600 hover:bg-red-700 transition p-2 rounded-xl border-4 border-black text-xl"
         >
           Entrar
         </button>
-        <p className="text-center mt-4">
+        <p className="text-center mt-4 text-xl">
           Não tem uma conta? 
-          <Link to="/registro" className="text-yellow-500 hover:underline ml-1">
+          <Link to="/registro" className="text-[#F78C26] hover:underline ml-1 text-xl">
             Crie uma agora
           </Link>
         </p>
