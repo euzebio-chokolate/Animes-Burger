@@ -116,14 +116,14 @@ export const ProdutoForm = ({ onSuccess, produtoParaEditar }) => {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="bg-white p-6 rounded-lg shadow-md mb-8 grid grid-cols-1 md:grid-cols-2 gap-6"
+      className="bg-white p-6 rounded-lg shadow-md mb-8 grid grid-cols-1 md:grid-cols-2 gap-6 font-Adlam border-4 border-black"
     >
       <h2 className="text-2xl font-bold mb-4 col-span-1 md:col-span-2">
         {/* Muda o título dinamicamente */}
         {isEditMode ? `Editando: ${produtoParaEditar.nome}` : 'Criar Novo Produto'}
       </h2>
 
-      {/* ... (Campos Nome, Preço, Categoria - Iguais a antes) ... */}
+      {/*Campos Nome, Preço, Categoria etc*/}
       <div>
         <label className="block text-sm font-medium text-gray-700">Nome do Produto</label>
         <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md" required />
@@ -167,7 +167,7 @@ export const ProdutoForm = ({ onSuccess, produtoParaEditar }) => {
         )}
       </div>
 
-      {/* ... (Campos Descrição, Ingredientes - Iguais a antes) ... */}
+      {/*Campos Descrição, Ingredientes etc*/}
       <div>
         <label className="block text-sm font-medium text-gray-700">Descrição</label>
         <textarea rows="3" value={descricao} onChange={(e) => setDescricao(e.target.value)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md"></textarea>
@@ -183,7 +183,7 @@ export const ProdutoForm = ({ onSuccess, produtoParaEditar }) => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 disabled:bg-gray-400"
+          className="w-full bg-[#A0405A] text-white px-4 py-2 rounded-lg shadow hover:bg-gray-800 disabled:bg-gray-400 border-4 border-black"
         >
           {/* Muda o texto do botão dinamicamente */}
           {loading ? 'Salvando...' : (isEditMode ? 'Atualizar Produto' : 'Salvar Novo Produto')}

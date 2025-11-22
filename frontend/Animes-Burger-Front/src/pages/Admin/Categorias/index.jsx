@@ -80,10 +80,11 @@ const AdminCategorias = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Gerenciar Categorias</h1>
+      <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Categorias</h1>
 
       {/* Formulário de Criação/Edição */}
-      <form onSubmit={handleSalvar} className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row gap-4 items-end">
+      <form onSubmit={handleSalvar} className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row gap-4 items-end border-4 border-black font-Adlam">
         <div className="flex-1 w-full">
           <label className="block text-sm font-medium text-gray-700">
             {idEmEdicao ? `Editando Categoria: ${nome}` : 'Nova Categoria'}
@@ -118,9 +119,9 @@ const AdminCategorias = () => {
       {error && <p className="text-red-600 bg-red-100 p-3 rounded-md mb-4">{error}</p>}
 
       {/* Tabela de Categorias */}
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="bg-white shadow-md rounded-lg overflow-hidden border-4 border-black font-Adlam">
         <table className="min-w-full">
-          <thead className="bg-gray-800 text-white">
+          <thead className="bg-[#A0405A] text-white">
             <tr>
               <th className="py-3 px-4 text-left">ID</th>
               <th className="py-3 px-4 text-left">Nome</th>

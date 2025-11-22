@@ -14,16 +14,17 @@ import {
 
 const AdminLayout = () => {
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-[#F9E8B0]">
       
       {/* Sidebar (Menu Lateral) */}
-      <aside className="w-64 bg-gray-900 text-white flex flex-col">
+      <aside className="w-64 bg-[#A0405A] text-white flex flex-col">
         <div className="p-4 border-b border-gray-700">
-          <h1 className="text-2xl font-Adlam text-yellow-400">ANIMES BURGER</h1>
+          <h1 className="text-2xl font-Atop text-white text-stroke">ANIMES</h1>
+          <h1 className="text-2xl font-Adlam text-black">BURGER</h1>
           <span className="text-sm font-Adlam text-gray-400">Painel Admin</span>
         </div>
         
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 font-Adlam text-xl">
           <Link to="/admin" className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-700">
             <ChartPieIcon className="h-6 w-6" />
             <span>Dashboard</span>

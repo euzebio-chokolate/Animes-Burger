@@ -73,10 +73,11 @@ const AdminDestaques = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Gerenciar Destaques</h1>
+      <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Destaques</h1>
 
       {/* Formulário de Adição */}
-      <form onSubmit={handleAdicionar} className="bg-white p-6 rounded-lg shadow-md mb-8 flex gap-4 items-end">
+      <form onSubmit={handleAdicionar} className="bg-white p-6 rounded-lg shadow-md mb-8 flex gap-4 items-end border-4 border-black font-Adlam">
         <div className="flex-1">
           <label className="block text-sm font-medium text-gray-700">
             Adicionar Produto aos Destaques
@@ -94,7 +95,7 @@ const AdminDestaques = () => {
         </div>
         <button
           type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600"
+          className="bg-[#A0405A] text-white px-4 py-2 rounded-lg shadow hover:bg-gray-600 border-4 border-black"
         >
           Adicionar
         </button>
@@ -102,10 +103,11 @@ const AdminDestaques = () => {
       {error && <p className="text-red-500 bg-red-100 p-3 rounded-md mb-4">{error}</p>}
 
       {/* Tabela de Destaques Atuais */}
-      <h2 className="text-2xl font-bold mb-4">Destaques Atuais ({destaques.length} / 3)</h2>
-      <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <h2 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Destaques Atuais ({destaques.length} / 3)</h2>
+      <div className="bg-white shadow-md rounded-lg overflow-hidden border-4 border-black">
         <table className="min-w-full">
-          <thead className="bg-gray-800 text-white">
+          <thead className="bg-[#A0405A] text-white">
             <tr>
               <th className="py-3 px-4 text-left">Produto</th>
               <th className="py-3 px-4 text-left">Ações</th>

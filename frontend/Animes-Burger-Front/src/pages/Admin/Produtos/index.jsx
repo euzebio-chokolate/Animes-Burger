@@ -46,7 +46,8 @@ const AdminProdutos = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Gerenciar Produtos</h1>
+      <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Produtos</h1>
 
       {/* Agora passamos o 'produtoEmEdicao' para o formulário.
         A 'key' é um truque do React: se 'produtoEmEdicao' mudar,
@@ -59,7 +60,7 @@ const AdminProdutos = () => {
         onSuccess={onFormSuccess} 
       />
 
-      {/* Botão para cancelar edição (só aparece se estiver editando) */}
+      {/* Botão para cancelar edição(só aparece se estiver editando)*/}
       {produtoEmEdicao && (
         <button 
           onClick={() => setProdutoEmEdicao(null)}
@@ -69,13 +70,13 @@ const AdminProdutos = () => {
         </button>
       )}
 
-      <h2 className="text-2xl font-bold mb-4 mt-8">Produtos Existentes</h2>
+      <h2 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
+          style={{ textShadow: "6px 6px 0px #000" }}>Produtos Existentes</h2>
       
       {/* Tabela de Produtos */}
-      <div className="bg-white shadow-md rounded-lg overflow-x-auto">
+      <div className="bg-white shadow-md rounded-lg overflow-x-auto border-4 border-black font-Adlam">
         <table className="min-w-full">
-          {/* ... (thead da tabela) ... */}
-          <thead className="bg-gray-800 text-white">
+          <thead className="bg-[#A0405A] text-white">
             <tr>
               <th className="py-3 px-4 text-left">Imagem</th>
               <th className="py-3 px-4 text-left">Nome</th>
@@ -97,7 +98,7 @@ const AdminProdutos = () => {
                 <td className="py-3 px-4">R$ {produto.preco.toFixed(2)}</td>
                 <td className="py-3 px-4">{produto.categoria?.nome || 'N/A'}</td>
                 <td className="py-3 px-4">
-                  {/* --- BOTÃO DE EDITAR ATUALIZADO --- */}
+                  {/*BOTÃO DE EDITAR ATUALIZADO*/}
                   <button 
                     onClick={() => setProdutoEmEdicao(produto)}
                     className="bg-blue-500 text-white px-3 py-1 rounded text-sm mr-2"
