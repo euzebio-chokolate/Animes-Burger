@@ -25,6 +25,8 @@ routes.delete("/produtos/:id", authenticate(['admin']), ProdutosAdminController.
 
 //CLIENTES
 routes.get("/clientes", authenticate(['admin']), ClientesAdminController.listar);
+routes.put("/clientes/:id/promover", authenticate(['admin']), ClientesAdminController.promover);
+routes.put("/clientes/:id/rebaixar", authenticate(['admin']), ClientesAdminController.rebaixar);
 
 //CATEGORIAS
 routes.get("/categorias", authenticate(['admin']), CategoriasAdminController.listar);

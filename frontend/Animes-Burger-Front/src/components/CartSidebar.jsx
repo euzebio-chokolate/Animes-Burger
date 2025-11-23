@@ -3,10 +3,7 @@ import { useCart } from '../pages/carrinho';
 import { XMarkIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
-// Componente para um item dentro do carrinho
 const CartItem = ({ item }) => {
-  // TODO: Conectar com as funções de 'atualizar' e 'remover' do context
-
   const { updateQuantity, removeItem } = useCart();
 
   const handleRemove = () => {
@@ -47,19 +44,17 @@ const CartItem = ({ item }) => {
   );
 };
 
-// Componente Principal do Sidebar
 const CartSidebar = () => {
-  // Pega os dados do nosso "cérebro" (o Context)
   const { isCartOpen, closeCart, cart, subtotal } = useCart();
 
   return (
-    // Container Principal (Overlay e Sidebar)
+    //Container Principal
     <div
       className={`fixed inset-0 z-50 transition-all duration-300 ease-in-out
         ${isCartOpen ? 'visible' : 'invisible'}
       `}
     >
-      {/* 1. O Overlay (fundo escuro) */}
+      {/*O Overlay*/}
       <div
         onClick={closeCart}
         className={`absolute inset-0 bg-black transition-opacity
@@ -67,13 +62,13 @@ const CartSidebar = () => {
         `}
       ></div>
 
-      {/* 2. O Conteúdo do Carrinho (que desliza) */}
+      {/*Conteúdo do Carrinho*/}
       <div
         className={`absolute right-0 top-0 h-full w-full max-w-lg bg-[#F9E8B0] transition-transform duration-300 ease-in-out
           ${isCartOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        {/* Header do Carrinho */}
+        {/*Header do Carrinho*/}
         <div className="flex justify-between items-center p-5 ">
           <h2 className="font-Atop font-semibold text-stroke text-4xl text-[#F78C26]"
             style={{ textShadow: "6px 6px 0px #000" }}>
@@ -84,7 +79,7 @@ const CartSidebar = () => {
           </button>
         </div>
 
-        {/* Lista de Itens */}
+        {/*Lista de Itens*/}
         <div className="p-5 overflow-y-auto h-[calc(100vh-220px)]">
           {cart.itens.length === 0 ? (
             <p className="text-center text-gray-700 font-Adlam text-lg">
@@ -97,7 +92,7 @@ const CartSidebar = () => {
           )}
         </div>
 
-        {/* Footer (Subtotal e Botão) */}
+        {/* Footer*/}
         <div className="absolute bottom-0 left-0 right-0 p-5 border-t-4 border-black bg-[#F9E8B0]">
           <div className="flex justify-between items-center mb-3">
             <span className="font-Adlam text-xl text-black">Subtotal:</span>
@@ -106,7 +101,7 @@ const CartSidebar = () => {
             </span>
           </div>
           <Link
-            to="/checkout" // (Você precisará criar esta página)
+            to="/checkout"
             className="block w-full text-center bg-[#9E3D46] text-white text-stroke font-Adlam text-2xl py-3 rounded-2xl border-4 border-black shadow-lg hover:bg-red-700"
           >
             Finalizar Pedido

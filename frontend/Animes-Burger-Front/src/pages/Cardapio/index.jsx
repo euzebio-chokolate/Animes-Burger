@@ -45,7 +45,6 @@ function Cardapio(){
   return(
     <main className="bg-[#F9E8B0] min-h-screen">
       
-      {/* 4. O layout visual do 'cardapioLayout.jsx' vem para cá */}
       <div className="container mx-auto max-w-7xl py-12 px-4">
         <h1 
           className="font-Atop font-semibold text-8xl text-center mb-4 text-stroke text-[#F78C26]"
@@ -57,7 +56,7 @@ function Cardapio(){
           Escolha o seu favorito!!
         </h2>
 
-        {/* BARRA DE BUSCA */}
+        {/*BARRA DE BUSCA*/}
         <div className="relative mb-10 max-w-lg mx-auto">
           <input 
             type="text"
@@ -69,7 +68,7 @@ function Cardapio(){
           <MagnifyingGlassIcon className="h-7 w-7 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2" />
         </div>
 
-        {/* Filtros de Categoria */}
+        {/*Filtros de Categoria*/}
         <div className="flex flex-wrap justify-center gap-4 mb-10">
           <button
             onClick={() => setFiltroCategoria(null)}
@@ -96,7 +95,7 @@ function Cardapio(){
           ))}
         </div>
 
-        {/* Grid de Produtos */}
+        {/*Grid de Produtos*/}
         {loading && (
           <p className="text-center text-gray-700 font-Adlam text-2xl">Carregando cardápio...</p>
         )}

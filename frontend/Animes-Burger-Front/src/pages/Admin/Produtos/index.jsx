@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../../services/api'; //
-import { ProdutoForm } from './ProdutoForm'; //
+import api from '../../../services/api'; 
+import { ProdutoForm } from './ProdutoForm'; 
+import ConfirmModal from '../../../components/ConfirmModal';
 
 const AdminProdutos = () => {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [produtoEmEdicao, setProdutoEmEdicao] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [produtoParaRemover, setProdutoParaRemover] = useState(null);
 
   const fetchProdutos = async () => {
     setLoading(true);
@@ -24,18 +28,24 @@ const AdminProdutos = () => {
     fetchProdutos();
   }, []);
 
-  const handleRemover = async (id) => {
-    if (window.confirm("Tem certeza?")) {
-      try {
-        await api.delete(`/admin/produtos/${id}`); 
-        fetchProdutos();
+  const abrirModalRemocao = (id) => {
+    setProdutoParaRemover(id);
+    setIsModalOpen(true);
+  };
 
-        if (produtoEmEdicao && produtoEmEdicao.id === id) {
-          setProdutoEmEdicao(null);
-        }
-      } catch (err) {
-        alert("Erro ao remover produto.");
+  const confirmarRemocao = async () => {
+    if (!produtoParaRemover) return;
+
+    try {
+      await api.delete(`/admin/produtos/${produtoParaRemover}`); 
+      fetchProdutos();
+
+      //Se removeu o produto que estava sendo editado, limpa o form
+      if (produtoEmEdicao && produtoEmEdicao.id === produtoParaRemover) {
+        setProdutoEmEdicao(null);
       }
+    } catch (err) {
+      alert("Erro ao remover produto.");
     }
   };
 
@@ -48,6 +58,14 @@ const AdminProdutos = () => {
     <div>
       <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
           style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Produtos</h1>
+
+          <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmarRemocao}
+        title="Remover Produto"
+        message="Tem certeza que deseja remover este produto? Esta ação não pode ser desfeita."
+      />
 
       {/* Agora passamos o 'produtoEmEdicao' para o formulário.
         A 'key' é um truque do React: se 'produtoEmEdicao' mudar,
@@ -98,7 +116,7 @@ const AdminProdutos = () => {
                 <td className="py-3 px-4">R$ {produto.preco.toFixed(2)}</td>
                 <td className="py-3 px-4">{produto.categoria?.nome || 'N/A'}</td>
                 <td className="py-3 px-4">
-                  {/*BOTÃO DE EDITAR ATUALIZADO*/}
+                  {/*BOTÃO DE EDITAR*/}
                   <button 
                     onClick={() => setProdutoEmEdicao(produto)}
                     className="bg-blue-500 text-white px-3 py-1 rounded text-sm mr-2"
@@ -106,7 +124,7 @@ const AdminProdutos = () => {
                     Editar
                   </button>
                   <button 
-                    onClick={() => handleRemover(produto.id)}
+                    onClick={() => abrirModalRemocao(produto.id)} 
                     className="bg-red-500 text-white px-3 py-1 rounded text-sm"
                   >
                     Remover

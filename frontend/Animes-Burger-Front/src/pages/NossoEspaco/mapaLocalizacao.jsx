@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MapaLocalizacao = () => {
-  // Pegue o link "Incorporar um mapa" do Google Maps e cole aqui
   const googleMapsSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.0348158780084!2d-67.82024582418696!3d-9.93105850612611!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x917f8b8706b8a145%3A0x77d08461aa30ef40!2sInstituto%20Federal%20do%20Acre%20-%20Campus%20Rio%20Branco!5e0!3m2!1spt-BR!2sbr!4v1763442580433!5m2!1spt-BR!2sbr";
 
   return (

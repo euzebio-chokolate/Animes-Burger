@@ -1,22 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../services/api'; //
 import { TrashIcon, PencilIcon } from '@heroicons/react/24/outline';
+import ConfirmModal from '../../../components/ConfirmModal';
+import SuccessModal from '../../../components/SuccessModal';
 
 const AdminCategorias = () => {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // States para o formulário
+  //States para o formulário
   const [nome, setNome] = useState('');
-  const [idEmEdicao, setIdEmEdicao] = useState(null); // Controla se estamos editando ou criando
+  const [idEmEdicao, setIdEmEdicao] = useState(null);
 
-  // 1. Busca as categorias do admin
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categoriaParaRemover, setCategoriaParaRemover] = useState(null);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  //Busca as categorias do admin
   const fetchCategorias = async () => {
     try {
       setLoading(true);
-      setError(null); // Limpa erros antigos
-      const { data } = await api.get('/admin/categorias'); // Rota do admin
+      setError(null);
+      const { data } = await api.get('/admin/categorias');
       setCategorias(data);
     } catch (err) {
       console.error("Erro ao buscar categorias", err);
@@ -28,9 +36,16 @@ const AdminCategorias = () => {
 
   useEffect(() => {
     fetchCategorias();
-  }, []); // Roda na inicialização
+  }, []);
 
-  // 2. Limpa o formulário e volta ao modo "Criar"
+
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    resetFormulario();          
+    fetchCategorias();          
+  };
+
+  //Limpa o formulário e volta ao modo "Criar"
   const resetFormulario = () => {
     setNome('');
     setIdEmEdicao(null);
@@ -43,45 +58,60 @@ const AdminCategorias = () => {
 
     try {
       if (idEmEdicao) {
-        // --- Modo Edição ---
         await api.put(`/admin/categorias/${idEmEdicao}`, { nome });
+        setSuccessMessage('Categoria atualizada com sucesso!');
       } else {
-        // --- Modo Criação ---
         await api.post('/admin/categorias', { nome });
+        setSuccessMessage('Categoria criada com sucesso!');
       }
-      
-      resetFormulario(); // Limpa o formulário
-      fetchCategorias(); // Recarrega a lista
+
+      setShowSuccessModal(true);
+
     } catch (err) {
       setError(err.response?.data?.erro || "Erro ao salvar categoria.");
     }
   };
 
-  // 4. Prepara o formulário para editar
   const handleEditar = (categoria) => {
     setIdEmEdicao(categoria.id);
     setNome(categoria.nome);
   };
 
-  // 5. Remove a categoria
-  const handleRemover = async (id) => {
-    // Pede confirmação
-    if (window.confirm("Tem certeza? Se algum produto estiver usando esta categoria, a remoção falhará.")) {
-      try {
-        setError(null);
-        await api.delete(`/admin/categorias/${id}`);
-        fetchCategorias(); // Recarrega a lista
-      } catch (err) {
-        // Mostra o erro do back-end (ex: "Categoria está em uso")
-        setError(err.response?.data?.erro || "Erro ao remover categoria.");
-      }
+  const abrirModalRemocao = (id) => {
+    setCategoriaParaRemover(id);
+    setIsModalOpen(true);
+  };
+
+  const confirmarRemocao = async () => {
+    if (!categoriaParaRemover) return;
+
+    try {
+      setError(null);
+      await api.delete(`/admin/categorias/${categoriaParaRemover}`);
+      fetchCategorias();
+    } catch (err) {
+      setError(err.response?.data?.erro || "Erro ao remover categoria.");
     }
   };
 
   return (
     <div>
       <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
-          style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Categorias</h1>
+        style={{ textShadow: "6px 6px 0px #000" }}>Gerenciar Categorias</h1>
+
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmarRemocao}
+        title="Remover Categoria"
+        message="Tem certeza que deseja remover esta categoria? Se ela estiver em uso, a remoção falhará."
+      />
+
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleCloseSuccessModal}
+        message={successMessage}
+      />
 
       {/* Formulário de Criação/Edição */}
       <form onSubmit={handleSalvar} className="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row gap-4 items-end border-4 border-black font-Adlam">
@@ -100,7 +130,7 @@ const AdminCategorias = () => {
         </div>
         <button
           type="submit"
-          className="bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 w-full sm:w-auto"
+          className="bg-[#A0405A] text-white px-5 py-2 rounded-xl shadow hover:bg-gray-700 w-full sm:w-auto border-4 border-black"
         >
           {idEmEdicao ? 'Atualizar' : 'Salvar'}
         </button>
@@ -108,13 +138,13 @@ const AdminCategorias = () => {
           <button
             type="button"
             onClick={resetFormulario}
-            className="bg-gray-500 text-white px-5 py-2 rounded-lg shadow hover:bg-gray-600 w-full sm:w-auto"
+            className="bg-red-700 text-white px-5 py-2 rounded-xl shadow hover:bg-gray-600 w-full sm:w-auto border-4 border-black"
           >
             Cancelar
           </button>
         )}
       </form>
-      
+
       {/* Exibição de Erro */}
       {error && <p className="text-red-600 bg-red-100 p-3 rounded-md mb-4">{error}</p>}
 
@@ -137,15 +167,15 @@ const AdminCategorias = () => {
                   <td className="py-3 px-4">{cat.id}</td>
                   <td className="py-3 px-4 font-medium">{cat.nome}</td>
                   <td className="py-3 px-4 flex justify-end gap-4">
-                    <button 
+                    <button
                       onClick={() => handleEditar(cat)}
                       className="text-blue-600 hover:text-blue-800"
                       title="Editar"
                     >
                       <PencilIcon className="h-5 w-5" />
                     </button>
-                    <button 
-                      onClick={() => handleRemover(cat.id)}
+                    <button
+                      onClick={() => abrirModalRemocao(cat.id)}
                       className="text-red-600 hover:text-red-800"
                       title="Remover"
                     >

@@ -27,7 +27,7 @@ api.interceptors.response.use(
     const refreshToken = localStorage.getItem('refreshToken');
 
     if (err.response?.status === 401 && !originalRequest._retry && refreshToken) {
-      originalRequest._retry = true; // Marca que já tentou
+      originalRequest._retry = true; 
       
       try {
         const { data } = await api.post("/usuarios/refresh", { refreshToken });

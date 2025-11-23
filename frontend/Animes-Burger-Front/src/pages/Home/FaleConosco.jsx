@@ -6,10 +6,11 @@ import {
     ClockIcon
 } from '@heroicons/react/24/outline';
 
+import animeGif from "../../assets/gifs/jojos-bizarre-adventure-anime.gif"
+
 
 function FaleConoscoSection() {
 
-    // Dados para os cards de informação
     const contactInfo = [
         {
             title: 'Telefone',
@@ -56,7 +57,6 @@ function FaleConoscoSection() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
 
-                    {/* Coluna da Esquerda: Informações */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {contactInfo.map((item) => (
                             <div
@@ -77,35 +77,13 @@ function FaleConoscoSection() {
                         ))}
                     </div>
 
-                    {/* Coluna da Direita: Formulário */}
-                    <div className="bg-[#F9E8B0] p-6 rounded-lg shadow-xl border-4 border-black text-left">
-                        <h3 className="text-3xl font-Adlam text-gray-800 mb-4">Como Podemos Melhorar?</h3>
-                        <form>
-                            <div className="mb-4">
-                                <label htmlFor="nome" className="block text-lg font-semibold text-gray-800 mb-1 font-Afacad">Seu nome:</label>
-                                <input
-                                    type="text"
-                                    id="nome"
-                                    className="w-full p-2 rounded-md border-2 border-black focus:outline-none focus:ring-2 focus:ring-[#8A3249]"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="comentario" className="block text-lg font-semibold text-gray-800 mb-1">Seu Comentário:</label>
-                                <textarea
-                                    id="comentario"
-                                    rows="5"
-                                    className="w-full p-2 rounded-md border-2 border-black focus:outline-none focus:ring-2 focus:ring-[#8A3249]"
-                                ></textarea>
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full font-Adlam uppercase bg-yellow-500 hover:bg-yellow-600 text-black text-lg py-3 px-8 rounded-full shadow-lg border-2 border-black transition duration-300"
-                            >
-                                Enviar!
-                            </button>
-                        </form>
+                    <div className="p-6 rounded-lg text-left flex items-center justify-center">
+                        <img
+                            src={animeGif}
+                            alt="Garota de anime dançando"
+                            className="w-3/4 h-3/4 object-contain"
+                        />
                     </div>
-
                 </div>
             </div>
         </section>

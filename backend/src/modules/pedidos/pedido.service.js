@@ -54,6 +54,7 @@ export const PedidoService = {
                 tipo_pedido: data.tipoPedido ?? null,
                 status: data.status ?? 'pendente',
                 valor_total: valorTotal,
+                observacoes: data.observacoes ?? null,
                 itens: {
                     create: itensParaCriar
                 }

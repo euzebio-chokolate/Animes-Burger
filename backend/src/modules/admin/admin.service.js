@@ -106,6 +106,22 @@ export const adminService = {
     });
   },
 
+  async promoverUsuario(usuarioId) {
+    return await prisma.usuario.update({
+      where: { id: Number(usuarioId) },
+      data: { role: 'admin' }
+    });
+  },
+  
+  async rebaixarUsuario(usuarioId) {
+    // (Opcional) Impedir que o usuário rebaixe a si mesmo ou o "super admin"
+    // Mas para simplificar, vamos permitir a alteração direta.
+    return await prisma.usuario.update({
+      where: { id: Number(usuarioId) },
+      data: { role: 'user' }
+    });
+  },
+
   //CATEGORIAS
   async listarCategorias() {
     return await prisma.categoria.findMany({

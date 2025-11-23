@@ -37,12 +37,12 @@ function AppRoutes() {
             <Route path="/pedido-confirmado/:id" element={<PedidoConfirmado />} />
             <Route path="/meus-pedidos" element={<MeusPedidos />} />
             <Route path="/espaco" element={<NossoEspaco />} />
+            <Route path="/conta" element={<MinhaConta />} />
           </Route>
 
           {/* rotas full screen */}
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Registro />} />
-          <Route path="/conta" element={<MinhaConta />} />
           
 
           {/* rotas admin */}

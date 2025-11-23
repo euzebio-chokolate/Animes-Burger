@@ -37,7 +37,7 @@ const Checkout = () => {
     const pedidoData = {
       clienteId: cliente.id,
       tipoPedido: 'retirada',
-      status: 'pendente',
+      status: 'preparando',
       formaPagamento: formaPagamento,
       observacoes: observacoes,
       itens: cart.itens.map(item => ({
@@ -62,7 +62,6 @@ const Checkout = () => {
   if (loading && !cliente) return <p className="text-center p-8 font-adlam text-xl">Carregando...</p>;
   if (error) return <p className="text-red-600 text-center p-8 font-adlam text-xl">{error}</p>;
   if (!cliente || cart.itens.length === 0) {
-    // ... (código para carrinho vazio)
   }
 
   const total = subtotal; 
@@ -76,10 +75,8 @@ const Checkout = () => {
       <p className="font-Afacad text-2xl text-black text-center mb-10">Estamos quase lá!</p>
 
       <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Coluna da Esquerda: Forma de Pagamento e Observações */}
         <div className="md:col-span-2 space-y-8">
 
-          {/* Forma de Pagamento */}
           <div className="bg-white rounded-2xl shadow-xl border-4 border-black p-6">
             <h2 className="font-Adlam text-4xl text-black mb-5">Forma de Pagamento</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -101,7 +98,6 @@ const Checkout = () => {
               </button>
             </div>
             
-            {/* Explicação da Forma de Pagamento */}
             {formaPagamento === 'pix' && (
                 <p className="font-Adlam text-lg text-gray-700 mt-4 p-3 bg-gray-100 rounded-lg">
                   O pagamento via PIX deverá ser feito no balcão durante a retirada.
@@ -114,10 +110,6 @@ const Checkout = () => {
             )}
           </div>
 
-          {/* --- MUDANÇA 4: Bloco de Endereço/Tipo de Pedido REMOVIDO --- */}
-          {/* (Removi os blocos de Tipo de Pedido e Endereço) */}
-
-          {/* Observações */}
           <div className="bg-white rounded-2xl shadow-xl border-4 border-black p-6">
             <h2 className="font-Adlam text-4xl text-black mb-5">Observações</h2>
             <textarea
@@ -129,7 +121,6 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* Coluna da Direita: Resumo do Pedido */}
         <div className="md:col-span-1 bg-[#F78C26] rounded-2xl shadow-xl border-4 border-black p-6 flex flex-col">
           <h2 className="font-Atop text-stroke text-white font-semibold text-5xl mb-6 text-center"
           style={{ textShadow: "6px 6px 0px #000" }}
@@ -147,26 +138,23 @@ const Checkout = () => {
             ))}
           </div>
 
-          {/* --- MUDANÇA 5: Resumo do Total Simplificado --- */}
           <div className="space-y-2 border-t-2 border-black pt-4 mb-6">
             <div className="flex justify-between font-Adlam text-xl text-black">
               <span>Subtotal:</span>
               <span>R$ {subtotal.toFixed(2)}</span>
             </div>
-            {/* Taxa de Entrega Removida */}
             <div className="flex justify-between font-Adlam text-3xl text-red-700 border-t border-black pt-2">
               <span>Total:</span>
               <span>R$ {total.toFixed(2)}</span>
             </div>
           </div>
 
-          {/* --- MUDANÇA 6: Lógica do Botão Atualizada --- */}
           <button
             onClick={handleFinalizarPedido}
             disabled={
               loading || 
               cart.itens.length === 0 || 
-              formaPagamento !== 'dinheiro' // Desabilitado se não for 'dinheiro'
+              formaPagamento !== 'dinheiro'
             }
             className="w-full text-center bg-[#8A3249] text-white text-stroke font-Adlam text-3xl py-3 rounded-xl border-4 border-black shadow-lg hover:bg-[#A0405A] transition-colors disabled:bg-gray-400 disabled:border-gray-600 disabled:cursor-not-allowed"
           >
@@ -175,7 +163,6 @@ const Checkout = () => {
           
           {error && <p className="text-red-700 font-adlam text-center mt-3">{error}</p>}
           
-          {/* Aviso de Botão Desabilitado */}
           {formaPagamento !== 'dinheiro' && (
             <p className="font-adlam text-sm text-center text-gray-800 mt-3">
               (Pagamento via PIX será habilitado em breve. Por favor, selecione "Dinheiro" para continuar.)

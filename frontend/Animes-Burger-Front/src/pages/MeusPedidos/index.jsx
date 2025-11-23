@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api'; //
 import { Link } from 'react-router-dom';
 
-// Componente para um único card de pedido
 const PedidoCard = ({ pedido }) => {
   return (
     <div className="bg-white shadow-lg rounded-2xl p-6 border-4 border-black">
@@ -10,7 +9,6 @@ const PedidoCard = ({ pedido }) => {
         <h3 className="text-2xl font-bold font-adlam text-gray-800">
           Pedido #{pedido.id}
         </h3>
-        {/* Status do Pedido */}
         <span className={`px-4 py-1 rounded-full text-sm font-bold font-adlam border-2 border-black ${
           pedido.status === 'pendente' ? 'bg-yellow-400 text-yellow-900' :
           pedido.status === 'concluido' ? 'bg-green-400 text-green-900' :
@@ -59,10 +57,8 @@ const MeusPedidos = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
-        // 1. Chama a rota segura do cliente
-        // O api.js anexa o token automaticamente
         const { data } = await api.get('/clientes/pedidos');
-        setPedidos(data); // O backend já retorna ordenado
+        setPedidos(data); 
       } catch (err) {
         console.error("Erro ao buscar pedidos:", err);
         setError("Não foi possível carregar seus pedidos.");
@@ -72,7 +68,7 @@ const MeusPedidos = () => {
     };
 
     fetchPedidos();
-  }, []); // Roda apenas uma vez
+  }, []); 
 
   return (
     <div className="bg-[#F9E8B0] min-h-screen p-4 py-12 flex flex-col items-center">
