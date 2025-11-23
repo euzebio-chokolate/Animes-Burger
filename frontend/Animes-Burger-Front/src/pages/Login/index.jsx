@@ -48,7 +48,7 @@ export default function Login() {
 
         <label className="font-Adlam text-black text-2xl">Senha</label>
         <input
-          type="text"
+          type="password"
           className="w-full p-2 rounded-xl bg-[#F78C26] mt-1 mb-6 border-4 border-black"
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
