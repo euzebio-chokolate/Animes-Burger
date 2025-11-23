@@ -5,16 +5,17 @@ import {
   ShoppingBagIcon, 
   ChartBarIcon, 
   ArrowPathIcon,
-  TrophyIcon
+  TrophyIcon,
+  CalendarDaysIcon,
+  CalendarIcon 
 } from '@heroicons/react/24/outline';
 
-// Componente para os Cards de Estatística
 const StatCard = ({ title, value, icon: Icon, color, subtext }) => (
   <div className="bg-white p-6 rounded-2xl shadow-lg border-l-4 flex items-center justify-between transition-transform hover:scale-105" style={{ borderColor: color }}>
     <div>
-      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">{title}</p>
-      <p className="text-3xl font-bold text-gray-800 mt-1">{value}</p>
-      {subtext && <p className="text-xs text-gray-400 mt-2">{subtext}</p>}
+      <p className="text-gray-500 text-sm font-medium uppercase tracking-wider font-Adlam">{title}</p>
+      <p className="text-3xl font-bold text-gray-800 mt-1 font-Adlam">{value}</p>
+      {subtext && <p className="text-xs text-gray-400 mt-2 font-Adlam">{subtext}</p>}
     </div>
     <div className={`p-3 rounded-full bg-opacity-20`} style={{ backgroundColor: `${color}33` }}>
       <Icon className="h-8 w-8" style={{ color: color }} />
@@ -42,35 +43,26 @@ const AdminDashboard = () => {
     fetchDashboard();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div>
-      </div>
-    );
-  }
-
+  if (loading) return <div className="flex justify-center p-10"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-500"></div></div>;
   if (!resumo) return <p className="text-red-500">Erro ao carregar dados.</p>;
 
-  // Cálculo do Ticket Médio (Evita divisão por zero)
-  const ticketMedio = resumo.pedidosHoje > 0 
-    ? resumo.vendasHoje / resumo.pedidosHoje 
+  // Cálculo do Ticket Médio
+  const ticketMedio = resumo.mes.pedidos > 0 
+    ? resumo.mes.vendas / resumo.mes.pedidos 
     : 0;
 
-  // Encontra a maior quantidade vendida para calcular a barra de porcentagem
-  const maiorVenda = resumo.maisVendidos.length > 0 
-    ? resumo.maisVendidos[0].quantidade 
-    : 1;
+  const maiorVenda = resumo.maisVendidos.length > 0 ? resumo.maisVendidos[0].quantidade : 1;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 pb-10">
       
-      {/*Header com Botão de Refresh*/}
+      {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-Atop font-semibold text-5xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
-          style={{ textShadow: "6px 6px 0px #000" }}>Visão Geral</h1>
-          <p className="text-black font-Adlam">Resumo das atividades de hoje</p>
+          <h1 className="font-Atop font-semibold text-5xl mb-2 text-stroke text-[#F78C26]" style={{ textShadow: "4px 4px 0px #000" }}>
+            Visão Geral
+          </h1>
+          <p className="text-gray-600 font-Adlam text-lg">Acompanhe o desempenho do Animes Burger</p>
         </div>
         <button 
           onClick={fetchDashboard}
@@ -81,58 +73,66 @@ const AdminDashboard = () => {
         </button>
       </div>
       
-      {/* Grid de Cards Principais */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-Adlam">
-        
+      {/* Hoje */}
+      <h2 className="font-Adlam text-2xl text-gray-800 border-b-2 border-gray-200 pb-2">Hoje</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-Adlam">
         <StatCard 
           title="Vendas Hoje"
-          value={`R$ ${resumo.vendasHoje.toFixed(2)}`}
+          value={`R$ ${resumo.hoje.vendas.toFixed(2)}`}
           icon={CurrencyDollarIcon}
           color="#10B981" // Verde
-          subtext="Total faturado hoje"
+          subtext={`${resumo.hoje.pedidos} pedidos realizados`}
         />
-
         <StatCard 
-          title="Pedidos Hoje"
-          value={resumo.pedidosHoje}
-          icon={ShoppingBagIcon}
-          color="#F59E0B" // Amarelo
-          subtext="Pedidos realizados"
-        />
-
-        <StatCard 
-          title="Ticket Médio"
+          title="Ticket Médio (Mês)"
           value={`R$ ${ticketMedio.toFixed(2)}`}
           icon={ChartBarIcon}
           color="#3B82F6" // Azul
-          subtext="Valor médio por pedido"
+          subtext="Média por pedido este mês"
         />
       </div>
 
-      {/* Seção de Mais Vendidos com Gráfico de Barra Simples */}
-      <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-100">
+      {/* Longo Prazo */}
+      <h2 className="font-Adlam text-2xl text-gray-800 border-b-2 border-gray-200 pb-2 pt-4">Performance</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-Adlam">
+        <StatCard 
+          title="Vendas Este Mês"
+          value={`R$ ${resumo.mes.vendas.toFixed(2)}`}
+          icon={CalendarDaysIcon}
+          color="#8B5CF6" // Roxo
+          subtext={`${resumo.mes.pedidos} pedidos no mês`}
+        />
+        <StatCard 
+          title="Vendas Este Ano"
+          value={`R$ ${resumo.ano.vendas.toFixed(2)}`}
+          icon={CalendarIcon}
+          color="#F59E0B" // Laranja
+          subtext={`${resumo.ano.pedidos} pedidos no ano`}
+        />
+      </div>
+
+      {/* Ranking */}
+      <div className="bg-white p-8 rounded-2xl shadow-md border border-gray-100 mt-8">
         <div className="flex items-center space-x-2 mb-6">
           <TrophyIcon className="h-6 w-6 text-yellow-500" />
-          <h2 className="text-xl font-bold text-gray-800 font-Adlam">Ranking de Produtos</h2>
+          <h2 className="text-xl font-bold text-gray-800 font-Adlam">Ranking de Produtos (Top 5)</h2>
         </div>
 
         {resumo.maisVendidos.length > 0 ? (
-          <div className="space-y-5">
+          <div className="space-y-5 font-Adlam">
             {resumo.maisVendidos.map((item, index) => {
-              // Calcula a largura da barra com base no item mais vendido
               const percentual = (item.quantidade / maiorVenda) * 100;
-              
               return (
                 <div key={index} className="relative">
                   <div className="flex justify-between mb-1">
                     <span className="font-medium text-gray-700">
-                      {index + 1}. {item.produto}
+                      #{index + 1} {item.produto}
                     </span>
-                    <span className="font-bold text-gray-900">{item.quantidade} vendas</span>
+                    <span className="font-bold text-gray-900">{item.quantidade} un.</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="w-full bg-gray-200 rounded-full h-4 border border-gray-300">
                     <div 
-                      className="bg-[#8A3249] h-3 rounded-full transition-all duration-1000 ease-out"
+                      className="bg-[#F78C26] h-full rounded-full transition-all duration-1000 ease-out border-r-2 border-black"
                       style={{ width: `${percentual}%` }}
                     ></div>
                   </div>
@@ -141,8 +141,8 @@ const AdminDashboard = () => {
             })}
           </div>
         ) : (
-          <div className="text-center py-10 text-gray-500 bg-gray-50 rounded-lg">
-            <p>Nenhuma venda registrada hoje.</p>
+          <div className="text-center py-10 text-gray-500 bg-gray-50 rounded-lg font-Adlam">
+            <p>Nenhuma venda registrada ainda.</p>
           </div>
         )}
       </div>

@@ -5,38 +5,62 @@ export const adminService = {
   
   //DASHBOARD
   async getDashboardResumo() {
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+    const agora = new Date();
 
-    const vendasHoje = await prisma.pedido.aggregate({
-      _sum: { valor_total: true },
-      where: { data_hora: { gte: hoje } }
-    });
+    const inicioHoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+    const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
+    const inicioAno = new Date(agora.getFullYear(), 0, 1);
 
-    const pedidosHoje = await prisma.pedido.count({
-      where: { data_hora: { gte: hoje } }
-    });
+    const [
+      vendasHoje, pedidosHoje,
+      vendasMes, pedidosMes,
+      vendasAno, pedidosAno,
+      maisVendidos
+    ] = await Promise.all([
+      // Hoje
+      prisma.pedido.aggregate({ _sum: { valor_total: true }, where: { data_hora: { gte: inicioHoje } } }),
+      prisma.pedido.count({ where: { data_hora: { gte: inicioHoje } } }),
+      
+      // Mês
+      prisma.pedido.aggregate({ _sum: { valor_total: true }, where: { data_hora: { gte: inicioMes } } }),
+      prisma.pedido.count({ where: { data_hora: { gte: inicioMes } } }),
 
-    const maisVendidos = await prisma.itemPedido.groupBy({
-      by: ["produtoId"],
-      _sum: { quantidade: true },
-      orderBy: { _sum: { quantidade: "desc" } },
-      take: 5
-    });
+      // Ano
+      prisma.pedido.aggregate({ _sum: { valor_total: true }, where: { data_hora: { gte: inicioAno } } }),
+      prisma.pedido.count({ where: { data_hora: { gte: inicioAno } } }),
+
+      // Ranking
+      prisma.itemPedido.groupBy({
+        by: ["produtoId"],
+        _sum: { quantidade: true },
+        orderBy: { _sum: { quantidade: "desc" } },
+        take: 5
+      })
+    ]);
 
     const produtosDetalhes = await Promise.all(
       maisVendidos.map(async (item) => {
         const p = await prisma.produto.findUnique({ where: { id: item.produtoId } });
         return {
-          produto: p.nome,
+          produto: p ? p.nome : "Produto Removido",
           quantidade: item._sum.quantidade
         };
       })
     );
 
     return {
-      pedidosHoje,
-      vendasHoje: vendasHoje._sum.valor_total ?? 0,
+      hoje: {
+        vendas: vendasHoje._sum.valor_total ?? 0,
+        pedidos: pedidosHoje
+      },
+      mes: {
+        vendas: vendasMes._sum.valor_total ?? 0,
+        pedidos: pedidosMes
+      },
+      ano: {
+        vendas: vendasAno._sum.valor_total ?? 0,
+        pedidos: pedidosAno
+      },
       maisVendidos: produtosDetalhes
     };
   },
@@ -114,8 +138,6 @@ export const adminService = {
   },
   
   async rebaixarUsuario(usuarioId) {
-    // (Opcional) Impedir que o usuário rebaixe a si mesmo ou o "super admin"
-    // Mas para simplificar, vamos permitir a alteração direta.
     return await prisma.usuario.update({
       where: { id: Number(usuarioId) },
       data: { role: 'user' }
