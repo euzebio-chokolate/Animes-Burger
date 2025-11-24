@@ -1,7 +1,7 @@
 import React from 'react';
 
 import GaleriaEspaco from './galeriaEspaco';
-import MapaLocalizacao from './MapaLocalizacao';
+import MapaLocalizacao from './mapaLocalizacao';
 
 import FaleConoscoSection from '../Home/FaleConosco';
 
