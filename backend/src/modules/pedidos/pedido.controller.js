@@ -11,6 +11,17 @@ export const PedidoController = {
         }
     },
 
+    async obter(req, res) {
+        try {
+            const { id } = req.params;
+            const pedido = await PedidoService.obterPorId(id);
+            if (!pedido) return res.status(404).json({ erro: "Pedido não encontrado" });
+            res.json(pedido);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    },
+
     async criar(require, response) {
         try {
             const criado = await PedidoService.criar(require.body);

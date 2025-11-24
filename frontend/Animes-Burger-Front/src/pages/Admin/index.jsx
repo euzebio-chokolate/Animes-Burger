@@ -80,14 +80,14 @@ const AdminDashboard = () => {
           title="Vendas Hoje"
           value={`R$ ${resumo.hoje.vendas.toFixed(2)}`}
           icon={CurrencyDollarIcon}
-          color="#10B981" // Verde
+          color="#10B981"
           subtext={`${resumo.hoje.pedidos} pedidos realizados`}
         />
         <StatCard 
           title="Ticket Médio (Mês)"
           value={`R$ ${ticketMedio.toFixed(2)}`}
           icon={ChartBarIcon}
-          color="#3B82F6" // Azul
+          color="#3B82F6"
           subtext="Média por pedido este mês"
         />
       </div>
@@ -99,14 +99,14 @@ const AdminDashboard = () => {
           title="Vendas Este Mês"
           value={`R$ ${resumo.mes.vendas.toFixed(2)}`}
           icon={CalendarDaysIcon}
-          color="#8B5CF6" // Roxo
+          color="#8B5CF6"
           subtext={`${resumo.mes.pedidos} pedidos no mês`}
         />
         <StatCard 
           title="Vendas Este Ano"
           value={`R$ ${resumo.ano.vendas.toFixed(2)}`}
           icon={CalendarIcon}
-          color="#F59E0B" // Laranja
+          color="#F59E0B"
           subtext={`${resumo.ano.pedidos} pedidos no ano`}
         />
       </div>

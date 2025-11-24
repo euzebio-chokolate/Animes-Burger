@@ -32,11 +32,8 @@ function Banner() {
                     </div>
 
                     <div className="flex justify-center lg:justify-start space-x-5 mt-10">
-                        <button className="font-Adlam uppercase bg-[#8A3249] text-white text-lg py-3 px-7 rounded-full border-black border-4">
+                        <button className="font-Adlam uppercase bg-[#8A3249] text-white text-lg py-3 px-20 rounded-full border-black border-4">
                             Peça Agora
-                        </button>
-                        <button className="font-Adlam uppercase bg-white text-gray-800 text-lg px-5 rounded-full border-4 border-black">
-                            Ver Cardápio
                         </button>
                     </div>
                 </div>

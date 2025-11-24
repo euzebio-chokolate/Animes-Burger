@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', authenticate(['admin']), PedidoController.listar);
 router.post('/', authenticate(), PedidoController.criar); 
+router.get('/:id', PedidoController.obter);
 
 export default router;

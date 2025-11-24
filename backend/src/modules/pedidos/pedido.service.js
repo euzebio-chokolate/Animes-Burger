@@ -13,9 +13,18 @@ export const PedidoService = {
         });
     },
 
+    async obterPorId(id) {
+        return await prisma.pedido.findUnique({
+            where: { id: Number(id) },
+            include: {
+                itens: { include: { produto: true } },
+                cliente: { include: { usuario: true } }
+            }
+        });
+    },
+
 
     async criar(data) {
-        //data: { clienteId, tipo_pedido, itens: [ { produtoId, quantidade, observacoes... } ] }
         if (!data.itens || !Array.isArray(data.itens) || data.itens.length === 0) {
             throw new Error('Necessário enviar ao menos um item no pedido');
         }

@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import api from '../../services/api'; 
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import { ClockIcon } from '@heroicons/react/24/outline';
 
 const PedidoConfirmado = () => {
   const { id } = useParams(); 
-  
-  const tempoEstimado = "50 minutos"; 
+  const [pedido, setPedido] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Busca o pedido no banco
+  useEffect(() => {
+    const fetchPedido = async () => {
+      try {
+        const { data } = await api.get(`/pedidos/${id}`);
+        setPedido(data);
+      } catch (err) {
+        console.error("Erro ao buscar pedido", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPedido();
+  }, [id]);
+
+  if (loading) return (
+    <div className="bg-[#F9E8B0] min-h-screen flex items-center justify-center">
+      <p className="font-Adlam text-2xl text-black animate-pulse">Carregando...</p>
+    </div>
+  );
+
+  if (!pedido) return (
+    <div className="bg-[#F9E8B0] min-h-screen flex items-center justify-center">
+      <p className="font-Adlam text-2xl text-black">Pedido não encontrado.</p>
+    </div>
+  );
+
+  // Pega o tempo do banco ou usa 45 como padrão
+  const tempoEstimado = pedido.tempo_estimado || 45;
 
   return (
     <div className="bg-[#F9E8B0] min-h-screen flex flex-col items-center justify-center p-6 text-center">
@@ -23,20 +55,27 @@ const PedidoConfirmado = () => {
         Seu hambúrguer está sendo preparado!
       </p>
 
+      {/* Card do ID */}
       <div className="bg-white border-4 border-black rounded-lg px-6 py-3 mb-6 shadow-md">
         <span className="font-Adlam text-2xl text-black">
-          Pedido #{id}
+          Pedido #{pedido.id}
         </span>
       </div>
 
+      {/* Card do Tempo*/}
       <div className="bg-white border-4 border-black rounded-lg px-10 py-6 mb-10 shadow-md w-full max-w-sm">
+        <div className="flex justify-center mb-2">
+            <ClockIcon className="h-8 w-8 text-[#F78C26]" />
+        </div>
         <p className="font-Adlam text-xl text-black mb-1">Tempo Estimado</p>
+        
         <p 
-          className="font-Adlam text-7xl text-[#F78C26] text-stroke"
+          className="font-Adlam text-6xl text-[#F78C26] text-stroke"
           style={{ textShadow: "2px 2px 0px #000" }}
         >
-          {tempoEstimado}
+          {tempoEstimado} minutos
         </p>
+        
         <p className="font-Adlam text-lg text-gray-700 mt-2">
           Vamos avisar quando estiver pronto!
         </p>

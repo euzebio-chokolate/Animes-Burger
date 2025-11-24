@@ -78,6 +78,7 @@ model Pedido {
   tipo_pedido String?
   itens       ItemPedido[]
   observacoes String?
+  tempo_estimado Int      @default(45)
 }
 
 
