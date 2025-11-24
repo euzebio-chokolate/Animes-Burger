@@ -1,4 +1,4 @@
-import { useCart } from "../carrinho";
+import { useCart } from "../Carrinho";
 
 const ProdutoCard = ({ produto }) => {
     const { addToCart, loading } = useCart();

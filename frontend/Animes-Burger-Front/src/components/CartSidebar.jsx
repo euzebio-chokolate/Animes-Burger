@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from '../pages/carrinho';
+import { useCart } from '../pages/Carrinho';
 import { XMarkIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 

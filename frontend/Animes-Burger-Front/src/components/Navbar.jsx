@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LogoImage from '../assets/images/logo.png';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../pages/carrinho';
+import { useCart } from '../pages/Carrinho';
 
 import {
     BookOpenIcon,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCart } from '../carrinho';
+import { useCart } from '../Carrinho';
 import axios from "axios";
 import api from '../../services/api';
 

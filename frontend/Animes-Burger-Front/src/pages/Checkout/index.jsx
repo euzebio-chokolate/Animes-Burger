@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { useCart } from '../carrinho';
+import { useCart } from '../Carrinho';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {

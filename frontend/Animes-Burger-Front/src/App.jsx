@@ -11,7 +11,7 @@ import MeusPedidos from "./pages/MeusPedidos/index.jsx";
 import NossoEspaco from "./pages/NossoEspaco/index.jsx";
 
 import PublicLayout from "./components/PublicLayout.jsx";
-import { CartProvider } from "./pages/carrinho/index.jsx";
+import { CartProvider } from "./pages/Carrinho/index.jsx";
 
 import AdminLayout from './pages/Admin/AdminLayout.jsx';
 import AdminDashboard from './pages/Admin/index.jsx';
