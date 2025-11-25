@@ -131,7 +131,10 @@ export const adminService = {
   },
 
   async removerProduto(id) {
-    return await prisma.produto.delete({ where: { id } });
+    return await prisma.produto.update({
+      where: { id: Number(id) },
+      data: { deletadoEm: new Date() }
+    });
   },
 
   //CLIENTES
