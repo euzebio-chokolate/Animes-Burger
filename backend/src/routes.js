@@ -7,6 +7,7 @@ import enderecoRoutes from './modules/enderecos/endereco.routes.js';
 import destaquesRoutes from './modules/destaques/destaque.routes.js';
 import usuarioRoutes from "./modules/usuarios/usuario.routes.js";
 import carrinhoRoutes from "./modules/carrinho/carrinho.routes.js";
+import pagamentoRoutes from "./modules/pagamentos/pagamento.routes.js"
 import adminRoutes from "./modules/admin/admin.routes.js";
 
 const router = Router();
@@ -23,5 +24,6 @@ router.use('/enderecos', enderecoRoutes);
 router.use('/destaques', destaquesRoutes);
 router.use('/usuarios', usuarioRoutes);
 router.use("/carrinho", carrinhoRoutes);
+router.use("/pagamento", pagamentoRoutes);
 router.use("/admin", adminRoutes);
 export default router;

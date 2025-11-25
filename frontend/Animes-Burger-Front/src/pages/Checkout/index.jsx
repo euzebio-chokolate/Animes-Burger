@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useCart } from '../Carrinho';
 import { useNavigate } from 'react-router-dom';
+import PixModal from '../../components/PixModal';
 
 const Checkout = () => {
   const { cart, subtotal, clearCartBackend } = useCart();
@@ -12,6 +13,11 @@ const Checkout = () => {
   const [tipoPedido, setTipoPedido] = useState('retirada'); 
   const [formaPagamento, setFormaPagamento] = useState('pix'); 
   const [observacoes, setObservacoes] = useState('');
+  
+  // States do PIX
+  const [showPixModal, setShowPixModal] = useState(false);
+  const [pixData, setPixData] = useState(null);
+  const [pedidoCriadoId, setPedidoCriadoId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -34,10 +40,12 @@ const Checkout = () => {
     setLoading(true);
     setError(null);
     
+    const statusInicial = formaPagamento === 'pix' ? 'aguardando_pagamento' : 'preparando';
+
     const pedidoData = {
       clienteId: cliente.id,
       tipoPedido: 'retirada',
-      status: 'preparando', // Já entra como preparando
+      status: statusInicial,
       formaPagamento: formaPagamento,
       observacoes: observacoes,
       itens: cart.itens.map(item => ({
@@ -47,18 +55,48 @@ const Checkout = () => {
     };
 
     try {
+      // 1. Cria o pedido
       const { data: novoPedido } = await api.post('/pedidos', pedidoData);
-      
-      await clearCartBackend(); 
+      setPedidoCriadoId(novoPedido.id);
 
-      navigate(`/pedido-confirmado/${novoPedido.id}`); 
+      // 2. Fluxo PIX
+      if (formaPagamento === 'pix') {
+        // Gera o PIX no backend
+        const { data: dadosPix } = await api.post('/pagamento/pix', {
+          pedidoId: novoPedido.id,
+          valor: subtotal, 
+          email: cliente.usuario.email,
+          nome: cliente.usuario.nome
+        });
+        
+        setPixData(dadosPix);
+        setShowPixModal(true); // Abre o modal
+        setLoading(false);
+        return; // Para aqui e espera o modal
+      }
+
+      // 3. Fluxo Dinheiro
+      await finalizarProcesso(novoPedido.id);
 
     } catch (err) {
       console.error("Erro ao finalizar pedido:", err);
-      setError("Erro ao finalizar pedido: " + (err.response?.data?.error || err.message));
-    } finally {
+      setError("Erro ao processar o pedido: " + (err.response?.data?.erro || err.message));
       setLoading(false);
     }
+  };
+
+  const finalizarProcesso = async (pedidoId) => {
+      await clearCartBackend(); 
+      
+      navigate(`/pedido-confirmado/${pedidoId}`);
+  };
+
+  const onPixPago = () => {
+     // Aguarda um pouquinho para o usuário ver o "Sucesso" no modal
+     setTimeout(() => {
+        setShowPixModal(false);
+        finalizarProcesso(pedidoCriadoId);
+     }, 2000); 
   };
 
   if (loading && !cliente) return (
@@ -92,7 +130,6 @@ const Checkout = () => {
   return (
     <div className="bg-[#F9E8B0] min-h-screen p-4 py-12 flex flex-col items-center overflow-x-hidden">
         
-        {/* Estilos de Animação */}
         <style>{`
             @keyframes slideUp {
                 from { opacity: 0; transform: translateY(30px); }
@@ -106,9 +143,17 @@ const Checkout = () => {
             .delay-200 { animation-delay: 0.2s; }
         `}</style>
 
+      {/* Modal do PIX */}
+      <PixModal 
+        isOpen={showPixModal}
+        onClose={() => setShowPixModal(false)}
+        pixData={pixData}
+        onPaymentSuccess={onPixPago}
+      />
+
       <div className="animate-slide-up text-center mb-10">
         <h1 
-            className="font-Atop text-stroke text-[#F78C26] font-semibold text-5xl md:text-7xl text-center mb-4 drop-shadow-lg"
+            className="font-Atop text-stroke text-[#F78C27] font-semibold text-5xl md:text-7xl text-center mb-4 drop-shadow-lg"
             style={{ textShadow: "4px 4px 0px #000" }}
         >
             FINALIZAR PEDIDO
@@ -118,10 +163,9 @@ const Checkout = () => {
 
       <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
         
-        {/* Coluna da Esquerda: Forma de Pagamento e Observações */}
+        {/* Coluna da Esquerda */}
         <div className="md:col-span-2 space-y-8 animate-slide-up delay-100">
 
-          {/* Forma de Pagamento */}
           <div className="bg-white rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black p-6 md:p-8">
             <h2 className="font-Adlam text-2xl md:text-3xl text-black mb-6 flex items-center gap-2">
                 <span className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center text-xl">1</span> 
@@ -151,11 +195,10 @@ const Checkout = () => {
               </button>
             </div>
             
-            {/* Explicação */}
             <div className="mt-6 p-4 bg-[#F9E8B0]/50 rounded-xl border-2 border-dashed border-black/20">
                 {formaPagamento === 'pix' && (
                     <p className="font-Adlam text-lg text-gray-800">
-                    ℹ️ O pagamento via PIX deverá ser feito no balcão durante a retirada.
+                    ℹ️ O QR Code será gerado na próxima tela. Pagamento automático!
                     </p>
                 )}
                 {formaPagamento === 'dinheiro' && (
@@ -166,7 +209,6 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* Observações */}
           <div className="bg-white rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black p-6 md:p-8">
             <h2 className="font-Adlam text-2xl md:text-3xl text-black mb-6 flex items-center gap-2">
                 <span className="bg-black text-white rounded-full w-8 h-8 flex items-center justify-center text-xl">2</span>
@@ -181,7 +223,7 @@ const Checkout = () => {
           </div>
         </div>
 
-        {/* Coluna da Direita: Resumo do Pedido */}
+        {/* Coluna da Direita */}
         <div className="md:col-span-1 animate-slide-up delay-200">
             <div className="bg-[#F78C26] rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black p-6 md:p-8 flex flex-col sticky top-8">
                 <h2 className="font-Adlam text-stroke text-white text-4xl mb-8 text-center" style={{ textShadow: "2px 2px 0px #000" }}>
@@ -213,19 +255,13 @@ const Checkout = () => {
 
                 <button
                     onClick={handleFinalizarPedido}
-                    disabled={loading || cart.itens.length === 0 || formaPagamento !== 'dinheiro'}
+                    disabled={loading || cart.itens.length === 0}
                     className="w-full text-center bg-[#8A3249] text-white font-Adlam text-2xl md:text-3xl py-4 rounded-xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-[#A0405A] hover:translate-y-1 hover:shadow-none transition-all disabled:bg-gray-500 disabled:border-gray-700 disabled:shadow-none disabled:cursor-not-allowed disabled:transform-none"
                 >
-                    {loading ? "Enviando..." : "Confirmar Pedido"}
+                    {loading ? "Processando..." : (formaPagamento === 'pix' ? "Gerar PIX" : "Confirmar Pedido")}
                 </button>
                 
                 {error && <p className="text-white font-bold bg-red-600/80 p-2 rounded-lg border-2 border-black font-Adlam text-center mt-4 text-sm">{error}</p>}
-                
-                {formaPagamento !== 'dinheiro' && (
-                    <p className="font-Adlam text-sm text-center text-black/70 mt-4 bg-white/30 p-2 rounded-lg border border-black/10">
-                    (Selecione "Dinheiro" para prosseguir. PIX em breve!)
-                    </p>
-                )}
             </div>
         </div>
       </div>
