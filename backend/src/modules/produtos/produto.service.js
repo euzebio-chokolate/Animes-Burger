@@ -5,6 +5,9 @@ const prisma = new PrismaClient();
 export const produtoService = {
   async listarTudo() {
     return await prisma.produto.findMany({
+      where: {
+        deletadoEm: null
+      },
       include: {
         categoria: true
       }

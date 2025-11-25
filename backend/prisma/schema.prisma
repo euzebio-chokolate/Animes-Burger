@@ -66,6 +66,7 @@ model Produto {
   imagemUrl    String?
   destaque     Destaque?
   ingredientes String?
+  deletadoEm   DateTime?
 }
 
 model Pedido {
