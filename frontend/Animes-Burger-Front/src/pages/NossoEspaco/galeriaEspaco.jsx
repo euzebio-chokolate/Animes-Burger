@@ -1,37 +1,50 @@
 import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 import MainBurguer from "../../assets/images/burger-1.png";
 import Imagem1 from "../../assets/images/imagem1.png";
 import Imagem2 from "../../assets/images/imagem2.png";
 
+// Imagens de Exemplo
 const placeholderImagens = [MainBurguer, Imagem1, Imagem2];
 
 const GaleriaEspaco = () => {
   return (
-    <section className="w-full bg-[#F9E8B0] py-16 px-8">
-      <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <h2
-          className="font-Atop font-semibold text-7xl mb-12 text-stroke text-[#F78C26] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)]"
-          style={{ textShadow: "6px 6px 0px #000" }}
+    <section className="w-full bg-[#F9E8B0] py-12 md:py-16 px-4 md:px-8">
+      <div className="container mx-auto max-w-7xl">
+        <h2 
+          className="font-Atop font-semibold text-5xl md:text-7xl mb-8 md:mb-12 text-center text-stroke text-[#F78C26] drop-shadow-lg"
+          style={{ textShadow: '4px 4px 0px #000' }}
         >
           NOSSA GALERIA
         </h2>
 
-        <div className="rounded-lg overflow-hidden p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="rounded-3xl overflow-hidden p-2 md:p-4 border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            spaceBetween={20}
+            slidesPerView={1}
+            centeredSlides={true}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            pagination={{ clickable: true }}
+            navigation={true}
+            className="w-full h-[300px] md:h-[500px] rounded-xl"
+          >
             {placeholderImagens.map((src, index) => (
-              <div
-                key={index}
-                className="bg-white p-2 border-4 border-black shadow-[8px_8px_0_#000] rotate-2 hover:-rotate-1 transition-transform duration-300 rounded-xl"
-              >
-                <img
-                  src={src}
-                  alt={`Foto do espaço ${index + 1}`}
-                  className="w-full h-64 object-cover rounded-lg"
+              <SwiperSlide key={index}>
+                <img 
+                  src={src} 
+                  alt={`Foto do espaço ${index + 1}`} 
+                  className="w-full h-full object-cover"
                 />
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
+          </Swiper>
         </div>
       </div>
     </section>

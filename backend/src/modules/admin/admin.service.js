@@ -85,19 +85,13 @@ export const adminService = {
 
   //PRODUTOS
   async criarProduto(data) {
-
-    const precoLimpo = (data.preco && !isNaN(parseFloat(data.preco))) ? parseFloat(data.preco) : 0;
-    const categoriaIdLimpo = (data.categoriaId && !isNaN(Number(data.categoriaId)) && Number(data.categoriaId) > 0) 
-      ? Number(data.categoriaId) 
-      : null;
-
     return await prisma.produto.create({
       data: {
         nome: data.nome,
         descricao: data.descricao ?? null,
-        preco: precoLimpo,
+        preco: parseFloat(data.preco),
         disponivel: data.disponivel === "true" || data.disponivel === true,
-        categoriaId: categoriaIdLimpo,
+        categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
         imagemUrl: data.imagemUrl ?? null,
         ingredientes: data.ingredientes ?? null
       },
@@ -106,17 +100,12 @@ export const adminService = {
   },
 
   async editarProduto(id, data) {
-    const precoLimpo = (data.preco && !isNaN(parseFloat(data.preco))) ? parseFloat(data.preco) : 0;
-    const categoriaIdLimpo = (data.categoriaId && !isNaN(Number(data.categoriaId)) && Number(data.categoriaId) > 0) 
-      ? Number(data.categoriaId) 
-      : null;
-
     const dadosParaAtualizar = {
       nome: data.nome,
       descricao: data.descricao ?? null,
-      preco: precoLimpo, 
+      preco: parseFloat(data.preco), 
       disponivel: data.disponivel === "true" || data.disponivel === true, 
-      categoriaId: categoriaIdLimpo,
+      categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
       ingredientes: data.ingredientes ?? null
     };
 
@@ -131,10 +120,7 @@ export const adminService = {
   },
 
   async removerProduto(id) {
-    return await prisma.produto.update({
-      where: { id: Number(id) },
-      data: { deletadoEm: new Date() }
-    });
+    return await prisma.produto.delete({ where: { id } });
   },
 
   //CLIENTES

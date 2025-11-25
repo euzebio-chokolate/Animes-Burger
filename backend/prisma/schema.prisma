@@ -79,7 +79,6 @@ model Pedido {
   itens       ItemPedido[]
   observacoes String?
   tempo_estimado Int      @default(45)
-  deletadoEm   DateTime?
 }
 
 

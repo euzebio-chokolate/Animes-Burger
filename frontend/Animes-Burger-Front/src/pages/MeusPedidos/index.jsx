@@ -1,46 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api'; //
+import api from '../../services/api'; 
 import { Link } from 'react-router-dom';
 
+// Componente para um único card de pedido
 const PedidoCard = ({ pedido }) => {
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-6 border-4 border-black">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="text-2xl font-bold font-adlam text-gray-800">
+    // Card com sombras fortes e borda grossa (Estilo do site)
+    <div className="bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-2xl p-6 border-4 border-black transition-transform duration-300 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      
+      {/* Cabeçalho do Card: ID e Status */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-2">
+        <h3 className="text-2xl md:text-3xl font-bold font-Adlam text-gray-900">
           Pedido #{pedido.id}
         </h3>
-        <span className={`px-4 py-1 rounded-full text-sm font-bold font-adlam border-2 border-black ${
-          pedido.status === 'pendente' ? 'bg-yellow-400 text-yellow-900' :
+        
+        <span className={`px-4 py-1 rounded-full text-sm md:text-base font-bold font-Adlam border-2 border-black shadow-sm ${
+          pedido.status === 'pendente' ? 'bg-yellow-300 text-yellow-900' :
+          pedido.status === 'preparando' ? 'bg-orange-300 text-orange-900' :
+          pedido.status === 'entrega' ? 'bg-blue-300 text-blue-900' :
           pedido.status === 'concluido' ? 'bg-green-400 text-green-900' :
-          pedido.status === 'cancelado' ? 'bg-red-400 text-red-900' :
-          'bg-blue-400 text-blue-900'
+          'bg-red-400 text-red-900'
         }`}>
-          {pedido.status}
+          {pedido.status.toUpperCase()}
         </span>
       </div>
-      <p className="text-sm text-gray-500 mb-4 font-adlam">
-        {new Date(pedido.data_hora).toLocaleString('pt-BR')}
+      
+      <p className="text-sm md:text-base text-gray-500 mb-4 font-Adlam border-b-2 border-dashed border-gray-300 pb-4">
+        Realizado em: {new Date(pedido.data_hora).toLocaleString('pt-BR')}
       </p>
       
-      {/* Itens do Pedido */}
-      <div className="border-t border-gray-300 pt-4">
-        <h4 className="font-adlam text-lg font-semibold mb-2">Itens:</h4>
+      {/* Lista de Itens */}
+      <div className="space-y-2">
+        <h4 className="font-Adlam text-lg md:text-xl font-semibold text-black mb-2">Itens:</h4>
         {pedido.itens.map((item) => (
-          <div key={item.id} className="flex justify-between items-center text-md mb-1 font-adlam">
+          <div key={item.id} className="flex justify-between items-center text-base md:text-lg mb-1 font-Adlam">
             <span className="text-gray-700">
-              {item.quantidade}x {item.produto.nome}
+              <span className="font-bold text-black">{item.quantidade}x</span> {item.produto.nome}
             </span>
-            <span className="text-gray-900 font-semibold">
+            <span className="text-gray-900 font-bold">
               R$ {(item.preco_unitario * item.quantidade).toFixed(2)}
             </span>
           </div>
         ))}
       </div>
 
-      {/* Total */}
-      <div className="border-t-2 border-dashed border-gray-400 mt-4 pt-4 flex justify-between items-center">
-        <span className="text-xl font-bold font-adlam text-black">Total</span>
-        <span className="text-2xl font-bold font-adlam text-black">
+      {/* Total do Pedido */}
+      <div className="border-t-4 border-black mt-6 pt-4 flex justify-between items-center">
+        <span className="text-xl md:text-2xl font-bold font-Adlam text-black">Total</span>
+        <span className="text-3xl md:text-4xl font-bold font-Adlam text-[#F78C26] text-stroke-sm" style={{ textShadow: "1px 1px 0 #000" }}>
           R$ {Number(pedido.valor_total).toFixed(2)}
         </span>
       </div>
@@ -57,6 +64,7 @@ const MeusPedidos = () => {
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
+        setLoading(true);
         const { data } = await api.get('/clientes/pedidos');
         setPedidos(data); 
       } catch (err) {
@@ -71,39 +79,62 @@ const MeusPedidos = () => {
   }, []); 
 
   return (
-    <div className="bg-[#F9E8B0] min-h-screen p-4 py-12 flex flex-col items-center">
+    <div className="bg-[#F9E8B0] min-h-screen p-4 md:p-8 py-12 flex flex-col items-center overflow-x-hidden">
+        
+        {/* Estilos de Animação */}
+        <style>{`
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(30px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-slide-up {
+                animation: slideUp 0.8s ease-out forwards;
+                opacity: 0;
+            }
+            .delay-100 { animation-delay: 0.1s; }
+            .delay-200 { animation-delay: 0.2s; }
+            .delay-300 { animation-delay: 0.3s; }
+        `}</style>
+
+      {/* Título Animado */}
       <h1 
-        className="font-Atop font-semibold text-7xl text-center mb-4 text-stroke text-[#F78C26]"
+        className="animate-slide-up font-Atop font-bold text-5xl md:text-7xl text-center mb-12 text-stroke text-[#F78C26] drop-shadow-lg"
         style={{ textShadow: "4px 4px 0px #000" }}
       >
-        Meus Pedidos
+        MEUS PEDIDOS
       </h1>
 
-      <div className="container mx-auto max-w-3xl">
+      <div className="container mx-auto max-w-3xl w-full">
         {loading && (
-          <p className="text-center text-gray-700 font-Adlam text-2xl">Carregando seus pedidos...</p>
+          <p className="animate-slide-up delay-100 text-center text-gray-700 font-Adlam text-2xl py-10">
+            Carregando seus pedidos...
+          </p>
         )}
 
         {error && (
-          <p className="text-center text-red-600 font-adlam text-2xl">{error}</p>
+          <p className="animate-slide-up delay-100 text-center text-red-600 font-Adlam text-2xl py-10">
+            {error}
+          </p>
         )}
 
         {!loading && !error && (
           <>
             {pedidos.length === 0 ? (
-              <div className="text-center bg-white p-8 rounded-2xl border-4 border-black shadow-lg">
-                <p className="text-gray-700 font-Adlam text-2xl mb-6">
-                  Você ainda não fez nenhum pedido.
+              // Estado Vazio Animado
+              <div className="animate-slide-up delay-100 text-center bg-white p-8 md:p-12 rounded-3xl border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-xl mx-auto">
+                <p className="text-gray-800 font-Adlam text-2xl md:text-3xl mb-8">
+                  Você ainda não fez nenhum pedido 😢
                 </p>
                 <Link 
                   to="/cardapio" 
-                  className="font-Adlam text-2xl bg-red-600 text-white py-3 px-8 rounded-lg border-4 border-black shadow-md hover:bg-red-700 transition-colors"
+                  className="inline-block font-Adlam text-xl md:text-2xl bg-[#F78C26] text-white py-3 px-10 rounded-xl border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 hover:shadow-none transition-all"
                 >
                   Ver Cardápio
                 </Link>
               </div>
             ) : (
-              <div className="space-y-6 font-Adlam">
+              // Lista de Pedidos Animada
+              <div className="animate-slide-up delay-200 space-y-8">
                 {pedidos.map((pedido) => (
                   <PedidoCard key={pedido.id} pedido={pedido} />
                 ))}
