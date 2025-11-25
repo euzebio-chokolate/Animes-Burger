@@ -85,13 +85,19 @@ export const adminService = {
 
   //PRODUTOS
   async criarProduto(data) {
+
+    const precoLimpo = (data.preco && !isNaN(parseFloat(data.preco))) ? parseFloat(data.preco) : 0;
+    const categoriaIdLimpo = (data.categoriaId && !isNaN(Number(data.categoriaId)) && Number(data.categoriaId) > 0) 
+      ? Number(data.categoriaId) 
+      : null;
+
     return await prisma.produto.create({
       data: {
         nome: data.nome,
         descricao: data.descricao ?? null,
-        preco: parseFloat(data.preco),
+        preco: precoLimpo,
         disponivel: data.disponivel === "true" || data.disponivel === true,
-        categoriaId: (data.categoriaId && !isNaN(Number(data.categoriaId))) ? Number(data.categoriaId) : null,
+        categoriaId: categoriaIdLimpo,
         imagemUrl: data.imagemUrl ?? null,
         ingredientes: data.ingredientes ?? null
       },
@@ -100,12 +106,17 @@ export const adminService = {
   },
 
   async editarProduto(id, data) {
+    const precoLimpo = (data.preco && !isNaN(parseFloat(data.preco))) ? parseFloat(data.preco) : 0;
+    const categoriaIdLimpo = (data.categoriaId && !isNaN(Number(data.categoriaId)) && Number(data.categoriaId) > 0) 
+      ? Number(data.categoriaId) 
+      : null;
+
     const dadosParaAtualizar = {
       nome: data.nome,
       descricao: data.descricao ?? null,
-      preco: parseFloat(data.preco), 
+      preco: precoLimpo, 
       disponivel: data.disponivel === "true" || data.disponivel === true, 
-      categoriaId: (data.categoriaId && !isNaN(Number(data.categoriaId))) ? Number(data.categoriaId) : null,
+      categoriaId: categoriaIdLimpo,
       ingredientes: data.ingredientes ?? null
     };
 
