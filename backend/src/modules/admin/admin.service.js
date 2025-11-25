@@ -91,7 +91,7 @@ export const adminService = {
         descricao: data.descricao ?? null,
         preco: parseFloat(data.preco),
         disponivel: data.disponivel === "true" || data.disponivel === true,
-        categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
+        categoriaId: (data.categoriaId && !isNaN(Number(data.categoriaId))) ? Number(data.categoriaId) : null,
         imagemUrl: data.imagemUrl ?? null,
         ingredientes: data.ingredientes ?? null
       },
@@ -105,7 +105,7 @@ export const adminService = {
       descricao: data.descricao ?? null,
       preco: parseFloat(data.preco), 
       disponivel: data.disponivel === "true" || data.disponivel === true, 
-      categoriaId: data.categoriaId ? Number(data.categoriaId) : null,
+      categoriaId: (data.categoriaId && !isNaN(Number(data.categoriaId))) ? Number(data.categoriaId) : null,
       ingredientes: data.ingredientes ?? null
     };
 
