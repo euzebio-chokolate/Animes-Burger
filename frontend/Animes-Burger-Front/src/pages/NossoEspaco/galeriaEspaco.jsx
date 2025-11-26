@@ -2,12 +2,15 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-import MainBurguer from "../../assets/images/burger-1.png";
-import Imagem1 from "../../assets/images/imagem1.png";
-import Imagem2 from "../../assets/images/imagem2.png";
+import Imagem1 from "../../assets/images/imagem-1.png";
+import Imagem2 from "../../assets/images/imagem-2.png";
+import Imagem3 from "../../assets/images/imagem-3.png";
+import Imagem4 from "../../assets/images/imagem-4.png";
+import Imagem5 from "../../assets/images/imagem-5.png";
+import Imagem6 from "../../assets/images/imagem-6.png";
 
 // Imagens de Exemplo
-const placeholderImagens = [MainBurguer, Imagem1, Imagem2];
+const placeholderImagens = [Imagem1, Imagem2, Imagem3, Imagem4, Imagem5, Imagem6];
 
 const GaleriaEspaco = () => {
   return (
