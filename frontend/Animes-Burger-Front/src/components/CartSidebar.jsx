@@ -119,7 +119,7 @@ const CartSidebar = () => {
                 
                 <div className="flex justify-between items-end mb-4">
                     <span className="font-Adlam text-xl text-gray-600">Subtotal:</span>
-                    <span className="font-Adlam text-4xl text-[#F78C26] text-stroke-sm" style={{ textShadow: "1px 1px 0 #000" }}>
+                    <span className="font-Adlam text-4xl text-[#F78C26] text-stroke" style={{ textShadow: "1px 1px 0 #000" }}>
                     R$ {subtotal.toFixed(2)}
                     </span>
                 </div>

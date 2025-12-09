@@ -66,7 +66,7 @@ const SobreNos = () => {
             <div className="bg-white w-16 h-16 rounded-xl border-4 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <FireIcon className="h-8 w-8 text-[#8A3249]" />
             </div>
-            <h3 className="font-Atop text-3xl mb-4 text-stroke-sm" style={{ textShadow: "2px 2px 0px #000" }}>MISSÃO</h3>
+            <h3 className="font-Atop text-3xl mb-4 text-stroke" style={{ textShadow: "2px 2px 0px #000" }}>MISSÃO</h3>
             <p className="font-Adlam text-lg leading-snug">
                 Combater a fome monótona servindo experiências lendárias. Queremos que cada mordida faça você se sentir despertando o Sétimo Sentido do paladar.
             </p>
@@ -77,7 +77,7 @@ const SobreNos = () => {
             <div className="bg-white w-16 h-16 rounded-xl border-4 border-black flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <SparklesIcon className="h-8 w-8 text-[#F78C26]" />
             </div>
-            <h3 className="font-Atop text-3xl mb-4 text-stroke-sm" style={{ textShadow: "2px 2px 0px #000" }}>VISÃO</h3>
+            <h3 className="font-Atop text-3xl mb-4 text-stroke" style={{ textShadow: "2px 2px 0px #000" }}>VISÃO</h3>
             <p className="font-Adlam text-lg leading-snug">
                 Tornar-se o "Rei dos Hambúrgueres" em todo o território, criando uma comunidade onde todos são bem-vindos na nossa tripulação.
             </p>
