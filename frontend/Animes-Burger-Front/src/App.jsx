@@ -9,6 +9,7 @@ import Registro from "./pages/Resgistro/index.jsx";
 import MinhaConta from "./pages/MinhaConta/index.jsx";
 import MeusPedidos from "./pages/MeusPedidos/index.jsx";
 import NossoEspaco from "./pages/NossoEspaco/index.jsx";
+import SobreNos from "./pages/SobreNos/index.jsx";
 
 import PublicLayout from "./components/PublicLayout.jsx";
 import { CartProvider } from "./pages/Carrinho/index.jsx";
@@ -38,6 +39,7 @@ function AppRoutes() {
             <Route path="/meus-pedidos" element={<MeusPedidos />} />
             <Route path="/espaco" element={<NossoEspaco />} />
             <Route path="/conta" element={<MinhaConta />} />
+            <Route path="/sobre" element={<SobreNos />} />
           </Route>
 
           {/* rotas full screen */}

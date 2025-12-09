@@ -12,7 +12,9 @@ import {
     ChevronDownIcon,
     ArrowRightOnRectangleIcon,
     Bars3Icon,
-    XMarkIcon
+    XMarkIcon,
+    SparklesIcon,
+    HomeIcon
 } from '@heroicons/react/24/outline';
 
 
@@ -26,7 +28,9 @@ function Navbar() {
     const token = localStorage.getItem('token');
 
     const navLinks = [
+        { name: 'Início', href: '/', current: false, icon: HomeIcon },
         { name: 'Cardápio', href: '/cardapio', current: false, icon: BookOpenIcon },
+        { name: 'Sobre Nós', href: '/sobre', current: false, icon: SparklesIcon },
         { name: 'Nosso Espaço', href: '/espaco', current: false, icon: MapPinIcon },
     ];
 

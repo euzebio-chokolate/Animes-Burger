@@ -70,12 +70,11 @@ function FaleConoscoSection() {
                         </div>
 
                         <div className="mt-8 pt-6 border-t-2 border-black/10 text-center lg:text-right">
-                            <p className="font-Atop text-2xl text-stroke-sm text-[#F78C26]" style={{ textShadow: '2px 2px 0 #000' }}>
+                            <p className="font-Atop text-2xl text-stroke text-[#F78C26]" style={{ textShadow: '2px 2px 0 #000' }}>
                                 #VemProAnimesBurger
                             </p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
