@@ -31,7 +31,7 @@ const ErrorModal = ({ isOpen, onClose, message }) => {
 
         {/* Título */}
         <h3 
-            className="font-Atop font-bold text-4xl text-red-600 mb-4 text-stroke-sm tracking-wide"
+            className="font-Atop font-bold text-4xl text-red-600 mb-4 text-stroke tracking-wide"
             style={{ textShadow: "2px 2px 0px #000" }}
         >
           OPS! ALGO DEU ERRADO

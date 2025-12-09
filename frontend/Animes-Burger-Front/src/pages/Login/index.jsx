@@ -1,12 +1,15 @@
 import { useState } from "react";
 import api from "../../services/api.js";
 import { useNavigate, Link } from "react-router-dom";
-import ErrorModal from "../../components/ErrorModal.jsx"; // Mantendo o modal
+import ErrorModal from "../../components/ErrorModal.jsx";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 export default function Login() {
   const nav = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -14,7 +17,7 @@ export default function Login() {
 
   async function handleLogin(e) {
     e.preventDefault();
-    setLoading(true); // Feedback visual
+    setLoading(true);
     
     try {
       const { data } = await api.post("/usuarios/login", { email, senha });
@@ -42,16 +45,14 @@ export default function Login() {
 
   return (
     <>
-      {/* Modal de Erro (Mantido) */}
       <ErrorModal
         isOpen={showErrorModal}
         onClose={() => setShowErrorModal(false)}
         message={errorMessage}
       />
 
-      <div className="min-h-screen flex items-center justify-center bg-[#F9E8B0] p-4 overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center bg-[#F9E8B0] p-6 overflow-hidden">
         
-        {/* Estilo da animação Slide Up */}
         <style>{`
             @keyframes slideUp {
                 from { opacity: 0; transform: translateY(30px); }
@@ -61,12 +62,11 @@ export default function Login() {
                 animation: slideUp 0.8s ease-out forwards;
                 opacity: 0;
             }
-            .delay-100 { animation-delay: 0.1s; }
         `}</style>
 
         <form
           onSubmit={handleLogin}
-          className="animate-slide-up bg-white p-8 md:p-10 rounded-3xl w-full max-w-md shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black flex flex-col"
+          className="animate-slide-up bg-white p-8 md:p-10 rounded-3xl w-full max-w-md shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black flex flex-col m-2"
         >
           <h1 
             className="font-Atop font-bold text-5xl md:text-6xl text-center mb-8 text-stroke text-[#F78C26] drop-shadow-lg"
@@ -75,7 +75,6 @@ export default function Login() {
             LOGIN
           </h1>
 
-          {/* Campo Email */}
           <div className="mb-6">
             <label className="block font-Adlam text-xl text-black mb-2">Email</label>
             <input
@@ -88,17 +87,31 @@ export default function Login() {
             />
           </div>
 
-          {/* Campo Senha */}
-          <div className="mb-8">
+          <div className="mb-8 relative">
             <label className="block font-Adlam text-xl text-black mb-2">Senha</label>
-            <input
-              type="password"
-              className="w-full p-3 rounded-xl border-4 border-gray-300 bg-gray-50 text-lg font-Adlam focus:border-[#F78C26] focus:ring-0 outline-none transition-colors"
-              placeholder="••••••••"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              required
-            />
+            <div className="relative">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    className="w-full p-3 pr-12 rounded-xl border-4 border-gray-300 bg-gray-50 text-lg font-Adlam focus:border-[#F78C26] focus:ring-0 outline-none transition-colors"
+                    placeholder="••••••••"
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
+                    required
+                />
+                
+                <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 translate-y-2 text-gray-500 hover:text-[#F78C26] transition-colors"
+                    style={{ marginTop: '-12px' }}
+                >
+                    {showPassword ? (
+                        <EyeSlashIcon className="h-6 w-6" />
+                    ) : (
+                        <EyeIcon className="h-6 w-6" />
+                    )}
+                </button>
+            </div>
           </div>
 
           <button

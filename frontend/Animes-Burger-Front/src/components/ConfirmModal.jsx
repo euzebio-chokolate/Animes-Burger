@@ -30,7 +30,7 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message }) => {
 
         {/* Título */}
         <h3 
-            className="font-Atop font-bold text-3xl md:text-4xl text-black mb-4 text-stroke-sm tracking-wide"
+            className="font-Atop font-bold text-3xl md:text-4xl text-[#F78C26] mb-4 text-stroke tracking-wide"
         >
           {title || "TEM CERTEZA?"}
         </h3>
