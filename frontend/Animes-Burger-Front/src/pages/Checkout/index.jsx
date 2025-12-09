@@ -55,11 +55,9 @@ const Checkout = () => {
     };
 
     try {
-      // 1. Cria o pedido
       const { data: novoPedido } = await api.post('/pedidos', pedidoData);
       setPedidoCriadoId(novoPedido.id);
 
-      // 2. Fluxo PIX
       if (formaPagamento === 'pix') {
         // Gera o PIX no backend
         const { data: dadosPix } = await api.post('/pagamento/pix', {
@@ -75,7 +73,6 @@ const Checkout = () => {
         return; // Para aqui e espera o modal
       }
 
-      // 3. Fluxo Dinheiro
       await finalizarProcesso(novoPedido.id);
 
     } catch (err) {
@@ -92,7 +89,6 @@ const Checkout = () => {
   };
 
   const onPixPago = () => {
-     // Aguarda um pouquinho para o usuário ver o "Sucesso" no modal
      setTimeout(() => {
         setShowPixModal(false);
         finalizarProcesso(pedidoCriadoId);
@@ -226,7 +222,7 @@ const Checkout = () => {
         {/* Coluna da Direita */}
         <div className="md:col-span-1 animate-slide-up delay-200">
             <div className="bg-[#F78C26] rounded-2xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-4 border-black p-6 md:p-8 flex flex-col sticky top-8">
-                <h2 className="font-Adlam text-stroke text-white text-4xl mb-8 text-center" style={{ textShadow: "2px 2px 0px #000" }}>
+                <h2 className="font-Adlam text-stroke text-white text-5xl mb-8 text-center" style={{ textShadow: "2px 2px 0px #000" }}>
                     RESUMO
                 </h2>
             
